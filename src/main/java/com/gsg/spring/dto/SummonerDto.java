@@ -1,8 +1,10 @@
 package com.gsg.spring.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class SummonerDto {
 	
 	// Encrypted summoner ID
@@ -15,9 +17,17 @@ public class SummonerDto {
 	private String name;
 	// ID of the summoner icon 
 	private int profileIconId;
-	// Date summoner was last modified(epoch milliseconds)
-	private int revisionDate;
 	// Summoner level 
 	private int summonerLevel;
+	// Queue type
+	private String queueType;
+	// Tier
+	private String tier;
+	// League points
+	private int leaguePoints;
+	// Winning team on Summoners Rift.
+	private int wins;
+	// Losing team on Summoners Rift.
+	private int losses;
 	
 }

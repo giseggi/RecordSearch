@@ -1,5 +1,7 @@
 package com.gsg.spring.service;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -14,19 +16,21 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 
 	@Value("${api.key}")
 	private String apiKey;
-	@Value("${summoner.v4.url1}")
-	private String summonerV4Url1;
-	@Value("${summoner.v4.url2}")
-	private String summonerV4Url2;
+	@Value("${common.url}")
+	private String commonUrl;
+	@Value("${summoner.v4.url}")
+	private String summonerV4Url;
+	@Value("${league.v4.bysummoner.url}")
+	private String leagueV4BySummonerUrl;
 	
 	@Override
 	public SummonerDto getSummonerInfo(String summoner, String server) {
 		
-		String url = new StringBuilder().append(summonerV4Url1).append(server).append(summonerV4Url2).toString();
-		DefaultUriBuilderFactory facotry = new DefaultUriBuilderFactory(url);
-		WebClient wc = WebClient.builder().uriBuilderFactory(facotry).baseUrl(url).build();
+		String url = new StringBuilder().append(commonUrl).append(server).append(summonerV4Url).toString();
+		DefaultUriBuilderFactory summonerV4Facotry = new DefaultUriBuilderFactory(url);
+		WebClient summonerV4Wc = WebClient.builder().uriBuilderFactory(summonerV4Facotry).baseUrl(url).build();
 		
-		String response = wc.get()
+		String summonerV4Response= summonerV4Wc.get()
 				.uri(uriBuilder -> uriBuilder.path(summoner)
 				.queryParam("api_key", apiKey)
 				.build())
@@ -34,7 +38,30 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				.bodyToMono(String.class)
 				.block();
 		
-		return null;
+		JSONObject jsonObj= new JSONObject(summonerV4Response);
+		
+		SummonerDto summonerInfo = new SummonerDto();
+		summonerInfo.setId(jsonObj.getString("id"));
+		summonerInfo.setSummonerLevel((Integer)jsonObj.get("summonerLevel"));
+		
+		url = new StringBuilder().append(commonUrl).append(server).append(leagueV4BySummonerUrl).toString();
+		DefaultUriBuilderFactory leagueV4BySummonerFacotry = new DefaultUriBuilderFactory(url);
+		WebClient leagueV4BySummonerWc = WebClient.builder().uriBuilderFactory(leagueV4BySummonerFacotry).baseUrl(url).build();
+
+		String leagueV4BySummonerResponse = leagueV4BySummonerWc.get()
+				.uri(uriBuilder -> uriBuilder.path(summonerInfo.getId())
+				.queryParam("api_key", apiKey)
+				.build())
+				.retrieve()
+				.bodyToMono(String.class)
+				.block();
+
+		JSONArray jsonArray = new JSONArray(leagueV4BySummonerResponse);
+		jsonObj = jsonArray.getJSONObject(0);
+	
+		summonerInfo.setTier(jsonObj.getString("tier"));
+	
+		return summonerInfo;
 	}
 
 }
