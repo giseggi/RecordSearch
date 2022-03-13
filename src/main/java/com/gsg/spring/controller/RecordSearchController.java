@@ -25,8 +25,10 @@ public class RecordSearchController {
 	public ModelAndView result(String summoner, String server) {
 		ModelAndView mv = new ModelAndView();
 
-		SummonerDto summonerDto = recordSearchService.getSummonerInfo(summoner, server);
-		
+		SummonerDto summonerInfo = recordSearchService.getSummonerInfo(summoner, server);
+		mv.addObject("summoner", summonerInfo);	
+		mv.setViewName("result");
+
 		return mv;
 	}
 	

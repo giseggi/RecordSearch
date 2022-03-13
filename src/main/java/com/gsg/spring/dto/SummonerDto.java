@@ -25,9 +25,11 @@ public class SummonerDto {
 	private String tier;
 	// League points
 	private int leaguePoints;
-	// Winning team on Summoners Rift.
+	// Winning team on Summoners Rift
 	private int wins;
-	// Losing team on Summoners Rift.
+	// Losing team on Summoners Rift
 	private int losses;
-	
+	// player's division within a tier
+	private String rank;
+			
 }

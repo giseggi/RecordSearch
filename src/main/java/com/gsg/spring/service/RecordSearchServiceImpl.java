@@ -42,7 +42,8 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		
 		SummonerDto summonerInfo = new SummonerDto();
 		summonerInfo.setId(jsonObj.getString("id"));
-		summonerInfo.setSummonerLevel((Integer)jsonObj.get("summonerLevel"));
+		summonerInfo.setSummonerLevel(jsonObj.getInt("summonerLevel"));
+		summonerInfo.setName(jsonObj.getString("name"));
 		
 		url = new StringBuilder().append(commonUrl).append(server).append(leagueV4BySummonerUrl).toString();
 		DefaultUriBuilderFactory leagueV4BySummonerFacotry = new DefaultUriBuilderFactory(url);
@@ -60,6 +61,10 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		jsonObj = jsonArray.getJSONObject(0);
 	
 		summonerInfo.setTier(jsonObj.getString("tier"));
+		summonerInfo.setWins(jsonObj.getInt("wins"));
+		summonerInfo.setLosses(jsonObj.getInt("losses"));
+		summonerInfo.setLeaguePoints(jsonObj.getInt("leaguePoints"));
+		summonerInfo.setRank(jsonObj.getString("rank"));
 	
 		return summonerInfo;
 	}
