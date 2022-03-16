@@ -26,6 +26,11 @@ public class RecordSearchController {
 		ModelAndView mv = new ModelAndView();
 
 		SummonerDto summonerInfo = recordSearchService.getSummonerInfo(summoner, server);
+		if(summonerInfo.getTier().equals("CHALLENGER") 
+				|| summonerInfo.getTier().equals("GRANDMASTER") 
+				|| summonerInfo.getTier().equals("MASTER") ) {
+			summonerInfo.setRank("");
+		}
 		mv.addObject("summoner", summonerInfo);	
 		mv.setViewName("result");
 
