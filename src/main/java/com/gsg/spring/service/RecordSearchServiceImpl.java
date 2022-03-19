@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.gsg.spring.dto.SummonerDto;
@@ -22,50 +23,71 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 	private String summonerV4Url;
 	@Value("${league.v4.bysummoner.url}")
 	private String leagueV4BySummonerUrl;
-	
+
 	@Override
-	public SummonerDto getSummonerInfo(String summoner, String server) {
-		
+	public SummonerDto getSummonerInfo(String summoner, String server) throws WebClientResponseException {
+
 		String url = new StringBuilder().append(commonUrl).append(server).append(summonerV4Url).toString();
 		DefaultUriBuilderFactory summonerV4Facotry = new DefaultUriBuilderFactory(url);
 		WebClient summonerV4Wc = WebClient.builder().uriBuilderFactory(summonerV4Facotry).baseUrl(url).build();
-		
-		String summonerV4Response= summonerV4Wc.get()
-				.uri(uriBuilder -> uriBuilder.path(summoner)
-				.queryParam("api_key", apiKey)
-				.build())
-				.retrieve()
-				.bodyToMono(String.class)
-				.block();
-		
-		JSONObject jsonObj= new JSONObject(summonerV4Response);
-		
+
+		String summonerV4Response = summonerV4Wc.get()
+				.uri(uriBuilder -> uriBuilder.path(summoner).queryParam("api_key", apiKey).build()).retrieve()
+				.bodyToMono(String.class).block();
+
+		JSONObject jsonObj = new JSONObject(summonerV4Response);
+
 		SummonerDto summonerInfo = new SummonerDto();
 		summonerInfo.setId(jsonObj.getString("id"));
 		summonerInfo.setSummonerLevel(jsonObj.getInt("summonerLevel"));
 		summonerInfo.setName(jsonObj.getString("name"));
-		
+
 		url = new StringBuilder().append(commonUrl).append(server).append(leagueV4BySummonerUrl).toString();
 		DefaultUriBuilderFactory leagueV4BySummonerFacotry = new DefaultUriBuilderFactory(url);
-		WebClient leagueV4BySummonerWc = WebClient.builder().uriBuilderFactory(leagueV4BySummonerFacotry).baseUrl(url).build();
+		WebClient leagueV4BySummonerWc = WebClient.builder().uriBuilderFactory(leagueV4BySummonerFacotry).baseUrl(url)
+				.build();
 
 		String leagueV4BySummonerResponse = leagueV4BySummonerWc.get()
-				.uri(uriBuilder -> uriBuilder.path(summonerInfo.getId())
-				.queryParam("api_key", apiKey)
-				.build())
-				.retrieve()
-				.bodyToMono(String.class)
-				.block();
+				.uri(uriBuilder -> uriBuilder.path(summonerInfo.getId()).queryParam("api_key", apiKey).build())
+				.retrieve().bodyToMono(String.class).block();
 
 		JSONArray jsonArray = new JSONArray(leagueV4BySummonerResponse);
-		jsonObj = jsonArray.getJSONObject(0);
-	
-		summonerInfo.setTier(jsonObj.getString("tier"));
-		summonerInfo.setWins(jsonObj.getInt("wins"));
-		summonerInfo.setLosses(jsonObj.getInt("losses"));
-		summonerInfo.setLeaguePoints(jsonObj.getInt("leaguePoints"));
-		summonerInfo.setRank(jsonObj.getString("rank"));
-	
+		
+
+		if (jsonArray.isEmpty()) {
+			summonerInfo.setTier("Unranked");
+			summonerInfo.setRank("");
+		} else {
+			jsonObj = jsonArray.getJSONObject(0);
+			summonerInfo.setTier(jsonObj.getString("tier"));
+			summonerInfo.setWins(jsonObj.getInt("wins"));
+			summonerInfo.setLosses(jsonObj.getInt("losses"));
+			summonerInfo.setLeaguePoints(jsonObj.getInt("leaguePoints"));
+
+			if (jsonObj.getString("tier").equals("CHALLENGER") || jsonObj.getString("tier").equals("GRANDMASTER")
+					|| jsonObj.getString("tier").equals("MASTER")) {
+				summonerInfo.setRank("");
+			} else {
+				switch (jsonObj.getString("rank")) {
+				case "I":
+					summonerInfo.setRank("1");
+					break;
+
+				case "II":
+					summonerInfo.setRank("2");
+					break;
+
+				case "III":
+					summonerInfo.setRank("3");
+					break;
+
+				case "IV":
+					summonerInfo.setRank("4");
+					break;
+				}
+			}
+		}
+
 		return summonerInfo;
 	}
 

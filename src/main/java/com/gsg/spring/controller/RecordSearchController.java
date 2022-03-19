@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gsg.spring.dto.SummonerDto;
@@ -24,15 +25,15 @@ public class RecordSearchController {
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
 	public ModelAndView result(String summoner, String server) {
 		ModelAndView mv = new ModelAndView();
-
-		SummonerDto summonerInfo = recordSearchService.getSummonerInfo(summoner, server);
-		if(summonerInfo.getTier().equals("CHALLENGER") 
-				|| summonerInfo.getTier().equals("GRANDMASTER") 
-				|| summonerInfo.getTier().equals("MASTER") ) {
-			summonerInfo.setRank("");
+		
+		try {
+			SummonerDto summonerInfo = recordSearchService.getSummonerInfo(summoner, server);
+			mv.addObject("summoner", summonerInfo);	
+			mv.setViewName("result");
+		} catch(WebClientResponseException e) {
+			mv.setViewName("index");
 		}
-		mv.addObject("summoner", summonerInfo);	
-		mv.setViewName("result");
+		
 
 		return mv;
 	}
