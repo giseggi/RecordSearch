@@ -31,7 +31,7 @@ public class RecordSearchController {
 			mv.addObject("summoner", summonerInfo);	
 			mv.setViewName("result");
 		} catch(WebClientResponseException e) {
-			mv.setViewName("index");
+			mv.setViewName("no_search_result");
 		}
 		
 
