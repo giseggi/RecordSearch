@@ -2,6 +2,7 @@ package com.gsg.spring.service;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -9,24 +10,27 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import com.gsg.spring.api.ApiKey;
 import com.gsg.spring.dto.SummonerDto;
 
 @Service
 @PropertySource("api.properties")
 public class RecordSearchServiceImpl implements RecordSearchService {
 
-	@Value("${api.key}")
-	private String apiKey;
 	@Value("${common.url}")
 	private String commonUrl;
 	@Value("${summoner.v4.url}")
 	private String summonerV4Url;
 	@Value("${league.v4.bysummoner.url}")
 	private String leagueV4BySummonerUrl;
+	@Autowired
+	private final ApiKey API_KEY = new ApiKey();
 
 	@Override
 	public SummonerDto getSummonerInfo(String summoner, String server) throws WebClientResponseException {
 
+		String apiKey = API_KEY.getApiKey();
+		
 		String url = new StringBuilder().append(commonUrl).append(server).append(summonerV4Url).toString();
 		DefaultUriBuilderFactory summonerV4Facotry = new DefaultUriBuilderFactory(url);
 		WebClient summonerV4Wc = WebClient.builder().uriBuilderFactory(summonerV4Facotry).baseUrl(url).build();
