@@ -1,5 +1,7 @@
 package com.gsg.spring.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +25,16 @@ public class RecordSearchController {
 	
 
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
-	public ModelAndView result(String summoner, String server) {
+	public ModelAndView result(String summoner, String server) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		try {
 			SummonerDto summonerInfo = recordSearchService.getSummonerInfo(summoner, server);
 			mv.addObject("summoner", summonerInfo);	
 			mv.setViewName("result");
+			
+			List<String> matchId = recordSearchService.getMatchId(summonerInfo.getPuuid(), server);
+			
 		} catch(WebClientResponseException e) {
 			mv.setViewName("no_search_result");
 		}
