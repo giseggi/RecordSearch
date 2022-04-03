@@ -3,6 +3,7 @@ package com.gsg.spring.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +24,22 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 
 	@Value("${common.url}")
 	private String commonUrl;
+	
 	@Value("${summoner.v4.url}")
 	private String summonerV4Url;
+	
 	@Value("${league.v4.bysummoner.url}")
 	private String leagueV4BySummonerUrl;
+	
 	@Value("${match.v5.matches.by.puuid.url}")
 	private String matchV5matchesByPuuidUrl;
+	
+	@Value("${match.v5.matches.url}")
+	private String matchV5matchesUrl;
+	
 	@Autowired
 	private final ApiKey API_KEY = new ApiKey();
-
+	
 	@Override
 	public SummonerDto getSummonerInfo(String summoner, String server) throws WebClientResponseException {
 
@@ -105,6 +113,65 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 	@Override
 	public List<String> getMatchId(String puuid, String server) throws Exception {
 		String apiKey = API_KEY.getApiKey();
+	
+		String region = getRegion(server);
+		
+		String url = new StringBuilder().append(commonUrl).append(region).append(matchV5matchesByPuuidUrl).toString();
+		
+		DefaultUriBuilderFactory matchesFacotry = new DefaultUriBuilderFactory(url);
+		WebClient matchesWc = WebClient.builder().uriBuilderFactory(matchesFacotry).baseUrl(url).build();
+
+		String matchV5matchesByPuuidResponse = matchesWc.get()
+				.uri(uriBuilder -> uriBuilder.path(puuid + "/ids").queryParam("start", "0")
+						.queryParam("count", "10").queryParam("api_key", apiKey).build()).retrieve()
+				.bodyToMono(String.class).block();
+		
+		JSONArray jsonArray = new JSONArray(matchV5matchesByPuuidResponse);
+		
+		List<String> matchesId = new ArrayList<String>();
+		for(int i = 0; i < jsonArray.length(); i++) {
+			matchesId.add(jsonArray.getString(i));
+		}
+		return matchesId;
+	}
+
+	@Override
+	public MatchDto getMatchInfo(String matchId, String server, String summoer) throws Exception {
+		String apiKey = API_KEY.getApiKey();
+		
+		String region = getRegion(server);
+		
+		String url = new StringBuilder().append(commonUrl).append(region).append(matchV5matchesUrl).toString();
+		
+		DefaultUriBuilderFactory matchesFacotry = new DefaultUriBuilderFactory(url);
+		WebClient matchesWc = WebClient.builder().uriBuilderFactory(matchesFacotry).baseUrl(url).build();
+		
+		String matchesResponse = matchesWc.get()
+				.uri(uriBuilder -> uriBuilder.path(matchId).queryParam("api_key", apiKey).build()).retrieve()
+				.bodyToMono(String.class).block();
+				
+		JSONObject jsonObj = new JSONObject(matchesResponse);
+		
+		JSONObject jsonGameInfo = jsonObj.getJSONObject("info");
+		
+		JSONArray jsonParticipantsArray = jsonGameInfo.getJSONArray("participants");
+		
+		MatchDto matchInfo = new MatchDto();
+		
+		for(int i = 0; i < jsonParticipantsArray.length(); i++) {
+			JSONObject jsonParticipant = jsonParticipantsArray.getJSONObject(i);
+			if(StringUtils.equals(jsonParticipant.getString("summonerName"), summoer)) {
+				
+			} else {
+				
+			}
+		}
+		
+		
+		return null;
+	}
+	
+	private static String getRegion(String server) throws Exception {
 		String region;
 		switch(server) {
 			case "na1":
@@ -132,29 +199,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 			
 		}
 		
-		String url = new StringBuilder().append(commonUrl).append(region).append(matchV5matchesByPuuidUrl).toString();
-		
-		DefaultUriBuilderFactory matchesFacotry = new DefaultUriBuilderFactory(url);
-		WebClient matchesWc = WebClient.builder().uriBuilderFactory(matchesFacotry).baseUrl(url).build();
-
-		String summonerV4Response = matchesWc.get()
-				.uri(uriBuilder -> uriBuilder.path(puuid + "/ids").queryParam("start", "0")
-						.queryParam("count", "10").queryParam("api_key", apiKey).build()).retrieve()
-				.bodyToMono(String.class).block();
-		
-		JSONArray jsonArray = new JSONArray(summonerV4Response);
-		
-		List<String> matchesId = new ArrayList<String>();
-		for(int i = 0; i < jsonArray.length(); i++) {
-			matchesId.add(jsonArray.getString(i));
-		}
-		return matchesId;
-	}
-
-	@Override
-	public MatchDto getMatchInfo(String matchId) throws WebClientResponseException {
-		// TODO Auto-generated method stub
-		return null;
+		return region;
 	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gsg.spring.dto.MatchDto;
 import com.gsg.spring.dto.SummonerDto;
 import com.gsg.spring.service.RecordSearchService;
 
@@ -33,7 +34,11 @@ public class RecordSearchController {
 			mv.addObject("summoner", summonerInfo);	
 			mv.setViewName("result");
 			
-			List<String> matchId = recordSearchService.getMatchId(summonerInfo.getPuuid(), server);
+			List<String> matchesId = recordSearchService.getMatchId(summonerInfo.getPuuid(), server);
+			
+			for(String matchId : matchesId) {
+				MatchDto matchInfo = recordSearchService.getMatchInfo(matchId, server, summoner);
+			}
 			
 		} catch(WebClientResponseException e) {
 			mv.setViewName("no_search_result");
