@@ -158,17 +158,72 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		
 		MatchDto matchInfo = new MatchDto();
 		
+		List<String> summonerNames = new ArrayList<String>();
+		List<Integer> championIds = new ArrayList<Integer>();
+		int blueTeamTotalKills = 0;
+		int redTeamTotalKills = 0;
+
 		for(int i = 0; i < jsonParticipantsArray.length(); i++) {
 			JSONObject jsonParticipant = jsonParticipantsArray.getJSONObject(i);
-			if(StringUtils.equals(jsonParticipant.getString("summonerName"), summoer)) {
-				
+			
+			//calculate total kills		
+			if(jsonParticipant.getInt("teamId") == 100) {
+				blueTeamTotalKills += jsonParticipant.getInt("kills");
 			} else {
-				
+				redTeamTotalKills += jsonParticipant.getInt("kills");
 			}
 		}
 		
+		for(int i = 0; i < jsonParticipantsArray.length(); i++) {
+			JSONObject jsonParticipant = jsonParticipantsArray.getJSONObject(i);
+					
+			if(StringUtils.equals(jsonParticipant.getString("summonerName"), summoer)) {
+				matchInfo.setChampionId(jsonParticipant.getInt("championId"));
+				matchInfo.setChampionLevel(jsonParticipant.getInt("champLevel"));			
+				matchInfo.setSummonerSpell1(jsonParticipant.getInt("summoner1Id"));
+				matchInfo.setSummonerSpell2(jsonParticipant.getInt("summoner2Id"));
+				matchInfo.setKda(jsonParticipant.getJSONObject("challenges").getDouble("kda"));
+				matchInfo.setMainRune(jsonParticipant.getJSONObject("perks").getJSONArray("styles")
+						.getJSONObject(0).getJSONArray("selections").getJSONObject(0).getInt("perk"));
+				matchInfo.setAuxiliaryRune(jsonParticipant.getJSONObject("perks").getJSONArray("styles")
+						.getJSONObject(1).getInt("style"));
+				
+				List<Integer> items = new ArrayList<Integer>();
+				for(int j = 0; j < 7; j++) {
+					items.add(jsonParticipant.getInt("item" + j));
+				}
+				matchInfo.setItems(items);
+				
+				matchInfo.setTotalMinionsKilled(jsonParticipant.getInt("totalMinionsKilled"));
+				matchInfo.setNeutralMinionsKilled(jsonParticipant.getInt("neutralMinionsKilled"));
+				
+				int ka = jsonParticipant.getInt("kills") + jsonParticipant.getInt("assists");
+				double killInvolvementRate;
+				if(jsonParticipant.getInt("teamId") == 100) {
+					killInvolvementRate = (ka * 1.0) / blueTeamTotalKills;
+				} else {
+					killInvolvementRate = (ka * 1.0) / redTeamTotalKills;
+				}
+				matchInfo.setKillInvolvementRate(killInvolvementRate);
+				
+				matchInfo.setGameDuration(jsonGameInfo.getInt("gameDuration"));
+				matchInfo.setGameStartTimestamp(jsonGameInfo.getLong("gameStartTimestamp"));
+				matchInfo.setQueueId(jsonGameInfo.getInt("queueId"));
+				matchInfo.setVisionWardsBoughtInGame(jsonParticipant.getInt("visionWardsBoughtInGame"));
+				
+				summonerNames.add(jsonParticipant.getString("summonerName"));
+				championIds.add(jsonParticipant.getInt("championId"));
+				
+			} else {
+				summonerNames.add(jsonParticipant.getString("summonerName"));
+				championIds.add(jsonParticipant.getInt("championId"));
+			}
+		}
 		
-		return null;
+		matchInfo.setSummonerNames(summonerNames);
+		matchInfo.setChampionIds(championIds);
+		
+		return matchInfo;
 	}
 	
 	private static String getRegion(String server) throws Exception {

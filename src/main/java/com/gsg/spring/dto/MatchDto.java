@@ -46,7 +46,7 @@ public class MatchDto {
 	int gameDuration;
 	
 	// Game start timestamp
-	int gameStartTimestamp;
+	long gameStartTimestamp;
 	
 	// Queue id
 	int queueId;
@@ -55,7 +55,7 @@ public class MatchDto {
 	int visionWardsBoughtInGame;
 	
 	// Summoners name in game
-	List<String> summonerName;
+	List<String> summonerNames;
 	
 	// Champions id in game
 	List<Integer> championIds;
