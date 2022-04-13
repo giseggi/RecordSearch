@@ -1,5 +1,6 @@
 package com.gsg.spring.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,17 @@ public class RecordSearchController {
 		
 		try {
 			SummonerDto summonerInfo = recordSearchService.getSummonerInfo(summoner, server);
-			mv.addObject("summoner", summonerInfo);	
-			mv.setViewName("result");
-			
+									
 			List<String> matchesId = recordSearchService.getMatchId(summonerInfo.getPuuid(), server);
+			List<MatchDto> matchInfoList = new ArrayList<MatchDto>();
 			
 			for(String matchId : matchesId) {
 				MatchDto matchInfo = recordSearchService.getMatchInfo(matchId, server, summoner);
+				matchInfoList.add(matchInfo);
 			}
+			mv.addObject("summoner", summonerInfo);
+			mv.addObject("matchInfoList", matchInfoList);	
+			mv.setViewName("result");
 			
 		} catch(WebClientResponseException e) {
 			mv.setViewName("no_search_result");

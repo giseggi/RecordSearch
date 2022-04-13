@@ -160,6 +160,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		
 		List<String> summonerNames = new ArrayList<String>();
 		List<Integer> championIds = new ArrayList<Integer>();
+		List<String> championNames = new ArrayList<String>();
 		int blueTeamTotalKills = 0;
 		int redTeamTotalKills = 0;
 
@@ -179,6 +180,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 					
 			if(StringUtils.equals(jsonParticipant.getString("summonerName"), summoer)) {
 				matchInfo.setChampionId(jsonParticipant.getInt("championId"));
+				matchInfo.setChampionName(jsonParticipant.getString("championName"));
 				matchInfo.setChampionLevel(jsonParticipant.getInt("champLevel"));			
 				matchInfo.setSummonerSpell1(jsonParticipant.getInt("summoner1Id"));
 				matchInfo.setSummonerSpell2(jsonParticipant.getInt("summoner2Id"));
@@ -217,6 +219,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 			} else {
 				summonerNames.add(jsonParticipant.getString("summonerName"));
 				championIds.add(jsonParticipant.getInt("championId"));
+				championNames.add(jsonParticipant.getString("championName"));
 			}
 		}
 		

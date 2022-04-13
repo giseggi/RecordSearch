@@ -18,7 +18,12 @@
 			#divHeader {
 				width: 100%;
 				text-align: center;
-			}	
+			}
+			table {
+				width: 60%;
+				margin: auto;				
+			}
+				
 		</style>
 	</head>
 	<body>
@@ -62,6 +67,14 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
+	<table border="1">
+		<c:forEach var="matchInfo" items="${matchInfoList}">
+			<tr>
+				<td>${matchInfo.championName}</td>
+				<td>KDA:${matchInfo.kda}</td>
+			</tr>
+		</c:forEach>
+	</table>
 
 </body>
 </html>

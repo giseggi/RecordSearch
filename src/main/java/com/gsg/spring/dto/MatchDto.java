@@ -10,7 +10,10 @@ import lombok.Setter;
 public class MatchDto {
 
 	// Champion Id
-	int championId;		
+	int championId;	
+	
+	// Champion Name
+	String championName;
 	
 	// Champion Level
 	int championLevel;
@@ -59,5 +62,8 @@ public class MatchDto {
 	
 	// Champions id in game
 	List<Integer> championIds;
+	
+	// Champions name in game
+	List<String> championNames;
 	
 }
