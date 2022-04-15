@@ -70,7 +70,8 @@
 	<table border="1">
 		<c:forEach var="matchInfo" items="${matchInfoList}">
 			<tr>
-				<td>${matchInfo.championName}</td>
+				<td width="65" align="center"><img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="60" height="60"></td>
+				<td width="65" align="center"><img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="60" height="60"></td>
 				<td>KDA:${matchInfo.kda}</td>
 			</tr>
 		</c:forEach>

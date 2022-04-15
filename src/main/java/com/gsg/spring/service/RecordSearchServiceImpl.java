@@ -1,10 +1,20 @@
 package com.gsg.spring.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +49,10 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 	
 	@Autowired
 	private final ApiKey API_KEY = new ApiKey();
+	
+	static final String QUEUE_INFO_URL = "https://static.developer.riotgames.com/docs/lol/queues.json";
+	
+	Map<Integer, String> queueInfoMap = new HashMap<Integer, String>();
 	
 	@Override
 	public SummonerDto getSummonerInfo(String summoner, String server) throws WebClientResponseException {
@@ -132,6 +146,21 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		for(int i = 0; i < jsonArray.length(); i++) {
 			matchesId.add(jsonArray.getString(i));
 		}
+		
+		JSONArray queueInfoArray = new JSONArray(readJsonFromUrl(QUEUE_INFO_URL));
+		
+		for(int i = 0; i < queueInfoArray.length(); i++ ) {
+			JSONObject queueInfo = queueInfoArray.getJSONObject(i);
+			String description; 
+			
+			if(queueInfo.get("description").equals(null)) {
+				description = null;
+			} else {
+				description = queueInfo.getString("description");
+			}
+			queueInfoMap.put(queueInfo.getInt("queueId"), description);
+		}
+		
 		return matchesId;
 	}
 
@@ -190,6 +219,8 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				matchInfo.setAuxiliaryRune(jsonParticipant.getJSONObject("perks").getJSONArray("styles")
 						.getJSONObject(1).getInt("style"));
 				
+				matchInfo.setVictotryFlag(jsonParticipant.getBoolean("win"));
+				
 				List<Integer> items = new ArrayList<Integer>();
 				for(int j = 0; j < 7; j++) {
 					items.add(jsonParticipant.getInt("item" + j));
@@ -210,9 +241,8 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				
 				matchInfo.setGameDuration(jsonGameInfo.getInt("gameDuration"));
 				matchInfo.setGameStartTimestamp(jsonGameInfo.getLong("gameStartTimestamp"));
-				matchInfo.setQueueId(jsonGameInfo.getInt("queueId"));
-				matchInfo.setVisionWardsBoughtInGame(jsonParticipant.getInt("visionWardsBoughtInGame"));
 				
+				matchInfo.setVisionWardsBoughtInGame(jsonParticipant.getInt("visionWardsBoughtInGame"));				
 				summonerNames.add(jsonParticipant.getString("summonerName"));
 				championIds.add(jsonParticipant.getInt("championId"));
 				
@@ -225,7 +255,8 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		
 		matchInfo.setSummonerNames(summonerNames);
 		matchInfo.setChampionIds(championIds);
-		
+		matchInfo.setQueueId(jsonGameInfo.getInt("queueId"));
+		matchInfo.setQueueDescription(queueInfoMap.get(jsonGameInfo.getInt("queueId")));		
 		return matchInfo;
 	}
 	
@@ -258,6 +289,29 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		}
 		
 		return region;
+	}
+
+	private static String jsonReadAll(Reader reader) throws IOException {
+		StringBuilder sb = new StringBuilder();
+
+		int cp;
+		while ((cp = reader.read()) != -1) {
+			sb.append((char) cp);
+		}
+
+		return sb.toString();
+	}
+
+	private static String readJsonFromUrl(String url) throws IOException, JSONException {
+		InputStream is = new URL(url).openStream();
+
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+			String jsonText = jsonReadAll(br);
+			return jsonText;
+		} finally {
+			is.close();
+		}
 	}
 
 }

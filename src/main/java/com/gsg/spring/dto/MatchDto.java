@@ -54,6 +54,9 @@ public class MatchDto {
 	// Queue id
 	int queueId;
 	
+	// Queue description
+	String queueDescription;
+	
 	// Vision wards bought in game
 	int visionWardsBoughtInGame;
 	
@@ -65,5 +68,8 @@ public class MatchDto {
 	
 	// Champions name in game
 	List<String> championNames;
+	
+	// Victory flag
+	boolean victotryFlag;
 	
 }
