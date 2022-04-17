@@ -48,8 +48,11 @@ public class MatchDto {
 	// Game duration(sec)
 	int gameDuration;
 	
-	// Game start timestamp
-	long gameStartTimestamp;
+	// Game end timestamp
+	long gameEndTimestamp;
+	
+	// Difference from the current time
+	String daysAgo;
 	
 	// Queue id
 	int queueId;
@@ -69,7 +72,7 @@ public class MatchDto {
 	// Champions name in game
 	List<String> championNames;
 	
-	// Victory flag
-	boolean victotryFlag;
+	// 1:Victory 2:Defeat 3:Remake
+	int resultCode;
 	
 }

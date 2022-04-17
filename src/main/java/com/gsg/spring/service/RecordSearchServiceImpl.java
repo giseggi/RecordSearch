@@ -7,7 +7,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import com.gsg.spring.RefVal;
 import com.gsg.spring.api.ApiKey;
 import com.gsg.spring.dto.MatchDto;
 import com.gsg.spring.dto.SummonerDto;
@@ -50,7 +54,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 	@Autowired
 	private final ApiKey API_KEY = new ApiKey();
 	
-	static final String QUEUE_INFO_URL = "https://static.developer.riotgames.com/docs/lol/queues.json";
+
 	
 	Map<Integer, String> queueInfoMap = new HashMap<Integer, String>();
 	
@@ -147,7 +151,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 			matchesId.add(jsonArray.getString(i));
 		}
 		
-		JSONArray queueInfoArray = new JSONArray(readJsonFromUrl(QUEUE_INFO_URL));
+		JSONArray queueInfoArray = new JSONArray(readJsonFromUrl(RefVal.QUEUE_INFO_URL));
 		
 		for(int i = 0; i < queueInfoArray.length(); i++ ) {
 			JSONObject queueInfo = queueInfoArray.getJSONObject(i);
@@ -218,9 +222,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 						.getJSONObject(0).getJSONArray("selections").getJSONObject(0).getInt("perk"));
 				matchInfo.setAuxiliaryRune(jsonParticipant.getJSONObject("perks").getJSONArray("styles")
 						.getJSONObject(1).getInt("style"));
-				
-				matchInfo.setVictotryFlag(jsonParticipant.getBoolean("win"));
-				
+												
 				List<Integer> items = new ArrayList<Integer>();
 				for(int j = 0; j < 7; j++) {
 					items.add(jsonParticipant.getInt("item" + j));
@@ -240,8 +242,8 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				matchInfo.setKillInvolvementRate(killInvolvementRate);
 				
 				matchInfo.setGameDuration(jsonGameInfo.getInt("gameDuration"));
-				matchInfo.setGameStartTimestamp(jsonGameInfo.getLong("gameStartTimestamp"));
-				
+				matchInfo.setResultCode(getResultCode(matchInfo.getGameDuration(), jsonParticipant.getBoolean("win")));
+								
 				matchInfo.setVisionWardsBoughtInGame(jsonParticipant.getInt("visionWardsBoughtInGame"));				
 				summonerNames.add(jsonParticipant.getString("summonerName"));
 				championIds.add(jsonParticipant.getInt("championId"));
@@ -256,7 +258,10 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		matchInfo.setSummonerNames(summonerNames);
 		matchInfo.setChampionIds(championIds);
 		matchInfo.setQueueId(jsonGameInfo.getInt("queueId"));
-		matchInfo.setQueueDescription(queueInfoMap.get(jsonGameInfo.getInt("queueId")));		
+		matchInfo.setQueueDescription(queueInfoMap.get(jsonGameInfo.getInt("queueId")));
+		matchInfo.setGameEndTimestamp(jsonGameInfo.getLong("gameEndTimestamp"));
+		matchInfo.setDaysAgo(calDiffFromCurrentTime(matchInfo.getGameEndTimestamp()));
+		
 		return matchInfo;
 	}
 	
@@ -313,5 +318,38 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 			is.close();
 		}
 	}
+	
+	
+	private static String calDiffFromCurrentTime(long gameStartTimestamp) {
 
+		Date now = new Date();
+
+		long diff = (now.getTime() - gameStartTimestamp) / 1000;
+		
+		if(diff < RefVal.ONE_HOUR_SEC) {
+			return diff/RefVal.ONE_MIN_SEC + "minutes";
+		} else if(diff >= RefVal.ONE_HOUR_SEC || diff < RefVal.ONE_DAY_SEC) {
+			return diff/RefVal.ONE_HOUR_SEC + "hours";
+		} else {
+			return Math.round((double)diff/RefVal.ONE_DAY_SEC) + "days";
+		}
+
+	}
+	
+	private int getResultCode(int gameDuration, boolean win) {
+		
+		if(gameDuration >= RefVal.TEN_MIN_SEC) {
+			
+			if(win) {
+				return RefVal.RESULT_CODE_VICTORY;
+			} else {
+				return RefVal.RESULT_CODE_DEFEAT;
+			}
+			
+		} else {
+			return RefVal.RESULT_CODE_REMAKE;
+		}
+		
+	}
+	
 }

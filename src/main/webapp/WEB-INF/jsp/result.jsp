@@ -6,6 +6,30 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${summoner.name}'s Record</title>
+			<script type="text/javascript">
+				var winningRate;		
+				winningRate = Math.round(${summoner.wins} / (${summoner.wins} + ${summoner.losses}) * 100);
+				document.write(winningRate, '%<br />');
+				
+				function getResult(resultCode) {
+					const result = {
+						1: 'Victory',
+					    2: 'Defeat',
+					    3: 'Remake',
+					};
+					return result[resultCode] || 'result code error';
+				}
+				
+				function getDurationToMMSS(gameDuration) {
+					const min = parseInt(gameDuration / 60);
+					const second = gameDuration % 60;
+					
+					return min.toString().concat('m ', second, 's');
+				}
+				
+				
+			</script>
+		
 		<style>
 			body {padding: 1px; margin: 1px;}
 			
@@ -58,11 +82,11 @@
 			<c:when test="${summoner.tier eq 'Unranked'}"></c:when>
 			<c:otherwise>
 				${summoner.leaguePoints}LP <br> ${summoner.wins}W
-				${summoner.losses}L / Winning rate
+				${summoner.losses}L / 
 				<script type="text/javascript">
 					var winningRate;		
 					winningRate = Math.round(${summoner.wins} / (${summoner.wins} + ${summoner.losses}) * 100);
-					document.write(winningRate, '%<br />');
+					document.write(winningRate, '%<br>');
 				</script>
 			</c:otherwise>
 		</c:choose>
@@ -70,7 +94,15 @@
 	<table border="1">
 		<c:forEach var="matchInfo" items="${matchInfoList}">
 			<tr>
-				<td width="65" align="center"><img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="60" height="60"></td>
+				<td width="200" align="center">${matchInfo.queueDescription} <br> ${matchInfo.daysAgo} ago <br>
+					<script type="text/javascript">
+						var result = getResult(${matchInfo.resultCode});		
+						document.write(result, '<br>');	
+						
+						var duration = getDurationToMMSS(${matchInfo.gameDuration});
+						document.write(duration, '<br>');	
+					</script>
+				</td>
 				<td width="65" align="center"><img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="60" height="60"></td>
 				<td>KDA:${matchInfo.kda}</td>
 			</tr>
