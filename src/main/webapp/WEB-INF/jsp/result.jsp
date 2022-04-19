@@ -47,6 +47,9 @@
 				width: 60%;
 				margin: auto;				
 			}
+			.Victory {background-color: #1E90FF;}
+			.Defeat {background-color: #FE2E64;}
+			.Remake {background-color: #A9A9A9;}
 				
 		</style>
 	</head>
@@ -93,14 +96,16 @@
 	</div>
 	<table border="1">
 		<c:forEach var="matchInfo" items="${matchInfoList}">
-			<tr>
-				<td width="200" align="center">${matchInfo.queueDescription} <br> ${matchInfo.daysAgo} ago <br>
+			<tr id="${matchInfo.matchId}">
+				<td width="200" align="center" >${matchInfo.queueDescription} <br> ${matchInfo.daysAgo} ago <br>
 					<script type="text/javascript">
 						var result = getResult(${matchInfo.resultCode});		
 						document.write(result, '<br>');	
 						
 						var duration = getDurationToMMSS(${matchInfo.gameDuration});
-						document.write(duration, '<br>');	
+						document.write(duration, '<br>');
+						
+						document.getElementById('${matchInfo.matchId}').setAttribute('class', result );
 					</script>
 				</td>
 				<td width="65" align="center"><img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="60" height="60"></td>

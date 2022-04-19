@@ -261,7 +261,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		matchInfo.setQueueDescription(queueInfoMap.get(jsonGameInfo.getInt("queueId")));
 		matchInfo.setGameEndTimestamp(jsonGameInfo.getLong("gameEndTimestamp"));
 		matchInfo.setDaysAgo(calDiffFromCurrentTime(matchInfo.getGameEndTimestamp()));
-		
+		matchInfo.setMatchId(matchId);
 		return matchInfo;
 	}
 	
@@ -328,7 +328,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		
 		if(diff < RefVal.ONE_HOUR_SEC) {
 			return diff/RefVal.ONE_MIN_SEC + "minutes";
-		} else if(diff >= RefVal.ONE_HOUR_SEC || diff < RefVal.ONE_DAY_SEC) {
+		} else if(diff >= RefVal.ONE_HOUR_SEC && diff < RefVal.ONE_DAY_SEC) {
 			return diff/RefVal.ONE_HOUR_SEC + "hours";
 		} else {
 			return Math.round((double)diff/RefVal.ONE_DAY_SEC) + "days";

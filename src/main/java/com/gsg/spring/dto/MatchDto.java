@@ -9,6 +9,9 @@ import lombok.Setter;
 @Setter
 public class MatchDto {
 
+	// Match Id
+	String matchId;
+	
 	// Champion Id
 	int championId;	
 	
