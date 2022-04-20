@@ -54,9 +54,10 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 	@Autowired
 	private final ApiKey API_KEY = new ApiKey();
 	
-
 	
 	Map<Integer, String> queueInfoMap = new HashMap<Integer, String>();
+	Map<Integer, String> mainRuneIconMap = new HashMap<Integer, String>();
+	Map<Integer, String> auxiliaryRuneIconMap = new HashMap<Integer, String>();
 	
 	@Override
 	public SummonerDto getSummonerInfo(String summoner, String server) throws WebClientResponseException {
@@ -141,7 +142,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 
 		String matchV5matchesByPuuidResponse = matchesWc.get()
 				.uri(uriBuilder -> uriBuilder.path(puuid + "/ids").queryParam("start", "0")
-						.queryParam("count", "10").queryParam("api_key", apiKey).build()).retrieve()
+						.queryParam("count", "20").queryParam("api_key", apiKey).build()).retrieve()
 				.bodyToMono(String.class).block();
 		
 		JSONArray jsonArray = new JSONArray(matchV5matchesByPuuidResponse);
@@ -151,19 +152,9 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 			matchesId.add(jsonArray.getString(i));
 		}
 		
-		JSONArray queueInfoArray = new JSONArray(readJsonFromUrl(RefVal.QUEUE_INFO_URL));
-		
-		for(int i = 0; i < queueInfoArray.length(); i++ ) {
-			JSONObject queueInfo = queueInfoArray.getJSONObject(i);
-			String description; 
-			
-			if(queueInfo.get("description").equals(null)) {
-				description = null;
-			} else {
-				description = queueInfo.getString("description");
-			}
-			queueInfoMap.put(queueInfo.getInt("queueId"), description);
-		}
+		setQueueInfoArray();
+		setAuxiliaryRuneIcon();
+		setMainRuneIcon();
 		
 		return matchesId;
 	}
@@ -217,7 +208,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				matchInfo.setChampionLevel(jsonParticipant.getInt("champLevel"));			
 				matchInfo.setSummonerSpell1(jsonParticipant.getInt("summoner1Id"));
 				matchInfo.setSummonerSpell2(jsonParticipant.getInt("summoner2Id"));
-				matchInfo.setKda(jsonParticipant.getJSONObject("challenges").getDouble("kda"));
+				matchInfo.setKda(String.format("%.2f", jsonParticipant.getJSONObject("challenges").getDouble("kda")));
 				matchInfo.setMainRune(jsonParticipant.getJSONObject("perks").getJSONArray("styles")
 						.getJSONObject(0).getJSONArray("selections").getJSONObject(0).getInt("perk"));
 				matchInfo.setAuxiliaryRune(jsonParticipant.getJSONObject("perks").getJSONArray("styles")
@@ -259,6 +250,8 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		matchInfo.setChampionIds(championIds);
 		matchInfo.setQueueId(jsonGameInfo.getInt("queueId"));
 		matchInfo.setQueueDescription(queueInfoMap.get(jsonGameInfo.getInt("queueId")));
+		matchInfo.setAuxiliaryRuneconInfo(auxiliaryRuneIconMap.get(matchInfo.getAuxiliaryRune()));
+		matchInfo.setMainRuneIconInfo(mainRuneIconMap.get(matchInfo.getMainRune()));
 		matchInfo.setGameEndTimestamp(jsonGameInfo.getLong("gameEndTimestamp"));
 		matchInfo.setDaysAgo(calDiffFromCurrentTime(matchInfo.getGameEndTimestamp()));
 		matchInfo.setMatchId(matchId);
@@ -352,4 +345,54 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		
 	}
 	
+	private void setQueueInfoArray() throws JSONException, IOException{
+		
+		JSONArray queueInfoArray = new JSONArray(readJsonFromUrl(RefVal.QUEUE_INFO_URL));
+		
+		for(int i = 0; i < queueInfoArray.length(); i++ ) {
+			JSONObject queueInfo = queueInfoArray.getJSONObject(i);
+			String description; 
+			
+			if(queueInfo.get("description").equals(null)) {
+				description = null;
+			} else {
+				description = queueInfo.getString("description");
+			}
+			queueInfoMap.put(queueInfo.getInt("queueId"), description);
+		}
+				
+	}
+	
+	private void setAuxiliaryRuneIcon() throws JSONException, IOException {
+		
+		JSONArray runeInfoArray = new JSONArray(readJsonFromUrl(RefVal.RUNE_INFO_URL));
+
+		for (int i = 0; i < runeInfoArray.length(); i++) {
+			JSONObject runeInfo = runeInfoArray.getJSONObject(i);
+			String icon = runeInfo.getString("icon");
+
+			auxiliaryRuneIconMap.put(runeInfo.getInt("id"), icon);
+		}
+	}
+	
+	private void setMainRuneIcon() throws JSONException, IOException {
+		
+		JSONArray runeInfoArray = new JSONArray(readJsonFromUrl(RefVal.RUNE_INFO_URL));
+
+		for (int i = 0; i < runeInfoArray.length(); i++) {
+			JSONObject runeInfo = runeInfoArray.getJSONObject(i);
+			JSONArray slots = runeInfo.getJSONArray("slots");
+			JSONObject mainRunesInfo = slots.getJSONObject(0);
+			
+			JSONArray mainRuneArray = mainRunesInfo.getJSONArray("runes");
+			
+			for(int j = 0; j < mainRuneArray.length(); j++) {
+				JSONObject mainRune = mainRuneArray.getJSONObject(j);
+				String icon = mainRune.getString("icon");
+				mainRuneIconMap.put(mainRune.getInt("id"), icon);
+			}
+						
+		}
+	}
+
 }

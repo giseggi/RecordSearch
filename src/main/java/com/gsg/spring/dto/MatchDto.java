@@ -28,7 +28,7 @@ public class MatchDto {
 	int summonerSpell2;
 	
 	// Kill + Assist / Death
-	double Kda;
+	String Kda;
 	
 	// Main rune
 	int mainRune;
@@ -77,5 +77,11 @@ public class MatchDto {
 	
 	// 1:Victory 2:Defeat 3:Remake
 	int resultCode;
+	
+	// Main rune icon info
+	String mainRuneIconInfo;
+	
+	// Auxiliary rune icon info
+	String auxiliaryRuneconInfo;
 	
 }

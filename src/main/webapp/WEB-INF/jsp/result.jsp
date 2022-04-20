@@ -9,7 +9,6 @@
 			<script type="text/javascript">
 				var winningRate;		
 				winningRate = Math.round(${summoner.wins} / (${summoner.wins} + ${summoner.losses}) * 100);
-				document.write(winningRate, '%<br />');
 				
 				function getResult(resultCode) {
 					const result = {
@@ -47,8 +46,8 @@
 				width: 60%;
 				margin: auto;				
 			}
-			.Victory {background-color: #1E90FF;}
-			.Defeat {background-color: #FE2E64;}
+			.Victory {background-color: #81BEF7;}
+			.Defeat {background-color: #F5A9BC;}
 			.Remake {background-color: #A9A9A9;}
 				
 		</style>
@@ -96,8 +95,9 @@
 	</div>
 	<table border="1">
 		<c:forEach var="matchInfo" items="${matchInfoList}">
+			<div></div>
 			<tr id="${matchInfo.matchId}">
-				<td width="200" align="center" >${matchInfo.queueDescription} <br> ${matchInfo.daysAgo} ago <br>
+				<td width=200px align="center" >${matchInfo.queueDescription} <br> ${matchInfo.daysAgo} ago <br>
 					<script type="text/javascript">
 						var result = getResult(${matchInfo.resultCode});		
 						document.write(result, '<br>');	
@@ -108,9 +108,22 @@
 						document.getElementById('${matchInfo.matchId}').setAttribute('class', result );
 					</script>
 				</td>
-				<td width="65" align="center"><img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="60" height="60"></td>
-				<td>KDA:${matchInfo.kda}</td>
+				<td width="150px">
+					<div style="width:65px; height:70px; float:left;">
+						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="65" height="65">
+					</div>
+					<div style="width:65px; height:70px; float:left;">
+						<img alt="Image error" src="https://ddragon.leagueoflegends.com/cdn/img/${matchInfo.mainRuneIconInfo}" width="30" height="30">
+						<img alt="Image error" src="https://ddragon.leagueoflegends.com/cdn/img/${matchInfo.auxiliaryRuneconInfo}" width="30" height="30">
+					</div>
+					${matchInfo.championName}
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>				
 			</tr>
+			
 		</c:forEach>
 	</table>
 
