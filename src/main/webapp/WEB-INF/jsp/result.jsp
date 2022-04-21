@@ -112,13 +112,17 @@
 					<div style="width:65px; height:70px; float:left;">
 						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="65" height="65">
 					</div>
-					<div style="width:65px; height:70px; float:left;">
+					<div style="width:40px; height:70px; float:left;">
+						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.7.1/img/spell/${matchInfo.summonerSpellId1}.png" width="30" height="30">
+						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.7.1/img/spell/${matchInfo.summonerSpellId2}.png" width="30" height="30">
+					</div>
+					<div style="width:40px; height:70px; float:left;">
 						<img alt="Image error" src="https://ddragon.leagueoflegends.com/cdn/img/${matchInfo.mainRuneIconInfo}" width="30" height="30">
 						<img alt="Image error" src="https://ddragon.leagueoflegends.com/cdn/img/${matchInfo.auxiliaryRuneconInfo}" width="30" height="30">
 					</div>
 					${matchInfo.championName}
 				</td>
-				<td></td>
+				<td>${matchInfo.kda}</td>
 				<td></td>
 				<td></td>
 				<td></td>				

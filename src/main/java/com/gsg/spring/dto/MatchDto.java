@@ -23,9 +23,15 @@ public class MatchDto {
 	
 	// Summoner Spell1
 	int summonerSpell1;
+
+	// Summoner Spell1 Id
+	String summonerSpellId1;
 	
 	// Summoner Spell2
 	int summonerSpell2;
+	
+	// Summoner Spell2 Id
+	String summonerSpellId2;
 	
 	// Kill + Assist / Death
 	String Kda;

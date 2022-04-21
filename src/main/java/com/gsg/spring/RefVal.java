@@ -5,7 +5,10 @@ public class RefVal {
 	public static final String QUEUE_INFO_URL = "https://static.developer.riotgames.com/docs/lol/queues.json";
 	
 	// Rune info URL
-	public static final String RUNE_INFO_URL = "https://ddragon.leagueoflegends.com/cdn/12.7.1/data/ko_KR/runesReforged.json";
+	public static final String RUNE_INFO_URL = "https://ddragon.leagueoflegends.com/cdn/12.7.1/data/en_US/runesReforged.json";
+	
+	// Summoner spell info URL
+	public static final String SUMMONER_SPELL_INFO_URL = "http://ddragon.leagueoflegends.com/cdn/12.7.1/data/en_US/summoner.json";
 	
 	// One day to second
 	public static final long ONE_DAY_SEC = 86400L;

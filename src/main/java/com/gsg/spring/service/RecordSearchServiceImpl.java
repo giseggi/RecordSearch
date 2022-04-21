@@ -58,6 +58,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 	Map<Integer, String> queueInfoMap = new HashMap<Integer, String>();
 	Map<Integer, String> mainRuneIconMap = new HashMap<Integer, String>();
 	Map<Integer, String> auxiliaryRuneIconMap = new HashMap<Integer, String>();
+	Map<Integer, String> summonerSpellMap = new HashMap<Integer, String>();
 	
 	@Override
 	public SummonerDto getSummonerInfo(String summoner, String server) throws WebClientResponseException {
@@ -155,6 +156,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		setQueueInfoArray();
 		setAuxiliaryRuneIcon();
 		setMainRuneIcon();
+		setSummonerSpellId();
 		
 		return matchesId;
 	}
@@ -208,7 +210,12 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				matchInfo.setChampionLevel(jsonParticipant.getInt("champLevel"));			
 				matchInfo.setSummonerSpell1(jsonParticipant.getInt("summoner1Id"));
 				matchInfo.setSummonerSpell2(jsonParticipant.getInt("summoner2Id"));
-				matchInfo.setKda(String.format("%.2f", jsonParticipant.getJSONObject("challenges").getDouble("kda")));
+				if(jsonParticipant.getInt("deaths") == 0 && (jsonParticipant.getInt("kills") + jsonParticipant.getInt("assists") > 0)) {
+					matchInfo.setKda("Perfect");
+				} else {
+					matchInfo.setKda(String.format("%.2f", jsonParticipant.getJSONObject("challenges").getDouble("kda")));
+				}
+				
 				matchInfo.setMainRune(jsonParticipant.getJSONObject("perks").getJSONArray("styles")
 						.getJSONObject(0).getJSONArray("selections").getJSONObject(0).getInt("perk"));
 				matchInfo.setAuxiliaryRune(jsonParticipant.getJSONObject("perks").getJSONArray("styles")
@@ -252,6 +259,8 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		matchInfo.setQueueDescription(queueInfoMap.get(jsonGameInfo.getInt("queueId")));
 		matchInfo.setAuxiliaryRuneconInfo(auxiliaryRuneIconMap.get(matchInfo.getAuxiliaryRune()));
 		matchInfo.setMainRuneIconInfo(mainRuneIconMap.get(matchInfo.getMainRune()));
+		matchInfo.setSummonerSpellId1(summonerSpellMap.get(matchInfo.getSummonerSpell1()));
+		matchInfo.setSummonerSpellId2(summonerSpellMap.get(matchInfo.getSummonerSpell2()));
 		matchInfo.setGameEndTimestamp(jsonGameInfo.getLong("gameEndTimestamp"));
 		matchInfo.setDaysAgo(calDiffFromCurrentTime(matchInfo.getGameEndTimestamp()));
 		matchInfo.setMatchId(matchId);
@@ -392,6 +401,17 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				mainRuneIconMap.put(mainRune.getInt("id"), icon);
 			}
 						
+		}
+	}
+	
+	private void setSummonerSpellId() throws JSONException, IOException {
+		
+		JSONObject data = new JSONObject(readJsonFromUrl(RefVal.SUMMONER_SPELL_INFO_URL)).getJSONObject("data");
+		JSONArray summonerSpellId = data.names();
+		
+		for (int i = 0; i < summonerSpellId.length(); i++) {
+			JSONObject summonerSpellInfo = data.getJSONObject(summonerSpellId.get(i).toString());
+			summonerSpellMap.put(summonerSpellInfo.getInt("key"), summonerSpellId.get(i).toString());			
 		}
 	}
 
