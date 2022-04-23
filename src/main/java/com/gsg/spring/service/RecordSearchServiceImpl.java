@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -229,7 +227,11 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				
 				matchInfo.setTotalMinionsKilled(jsonParticipant.getInt("totalMinionsKilled"));
 				matchInfo.setNeutralMinionsKilled(jsonParticipant.getInt("neutralMinionsKilled"));
-				
+				matchInfo.setKills(jsonParticipant.getInt("kills"));
+				matchInfo.setDeaths(jsonParticipant.getInt("deaths"));
+				matchInfo.setAssists(jsonParticipant.getInt("assists"));
+				matchInfo.setMultipleKillsCode(setMultipleKillCode(jsonParticipant));
+								
 				int ka = jsonParticipant.getInt("kills") + jsonParticipant.getInt("assists");
 				double killInvolvementRate;
 				if(jsonParticipant.getInt("teamId") == 100) {
@@ -245,7 +247,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				matchInfo.setVisionWardsBoughtInGame(jsonParticipant.getInt("visionWardsBoughtInGame"));				
 				summonerNames.add(jsonParticipant.getString("summonerName"));
 				championIds.add(jsonParticipant.getInt("championId"));
-				
+							
 			} else {
 				summonerNames.add(jsonParticipant.getString("summonerName"));
 				championIds.add(jsonParticipant.getInt("championId"));
@@ -413,6 +415,28 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 			JSONObject summonerSpellInfo = data.getJSONObject(summonerSpellId.get(i).toString());
 			summonerSpellMap.put(summonerSpellInfo.getInt("key"), summonerSpellId.get(i).toString());			
 		}
+	}
+	
+	private int setMultipleKillCode(JSONObject participant) {
+		
+		int multipleKillCode = RefVal.MULTIPLE_KILLS_CODE_NONE;
+		
+		if(participant.getInt("doubleKills") > 0) {
+			multipleKillCode = RefVal.MULTIPLE_KILLS_CODE_DOUBLE_KILL;
+		}
+		
+		if(participant.getInt("tripleKills") > 0) {
+			multipleKillCode = RefVal.MULTIPLE_KILLS_CODE_TRIPLE_KILL;
+		}
+		
+		if(participant.getInt("quadraKills") > 0) {
+			multipleKillCode = RefVal.MULTIPLE_KILLS_CODE_QUADRA_KILL;
+		}
+		
+		if(participant.getInt("pentaKills") > 0) {
+			multipleKillCode = RefVal.MULTIPLE_KILLS_CODE_PENTA_KILL;
+		}
+		return multipleKillCode;
 	}
 
 }

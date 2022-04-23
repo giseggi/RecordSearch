@@ -30,4 +30,20 @@ public class RefVal {
 		
 	// Result code 3:Remake
 	public static final int RESULT_CODE_REMAKE = 3;
+	
+	// Multiple kills code 1:none
+	public static final int MULTIPLE_KILLS_CODE_NONE = 1;
+	
+	// Multiple kills code 2:double kill
+	public static final int MULTIPLE_KILLS_CODE_DOUBLE_KILL = 2;
+		
+	// Multiple kills code 3:triple kill
+	public static final int MULTIPLE_KILLS_CODE_TRIPLE_KILL = 3;
+		
+	// Multiple kills code 4:quadra kill
+	public static final int MULTIPLE_KILLS_CODE_QUADRA_KILL = 4;
+	
+	// Multiple kills code 5:penta kill
+	public static final int MULTIPLE_KILLS_CODE_PENTA_KILL = 5;
+	
 }

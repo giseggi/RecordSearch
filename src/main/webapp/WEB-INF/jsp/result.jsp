@@ -19,6 +19,17 @@
 					return result[resultCode] || 'result code error';
 				}
 				
+				function getMultipleKill(multipleKillCode) {
+					const multipleKill = {
+						1: 'none',
+					    2: 'Double Kill',
+					    3: 'Triple Kill',
+					    4: 'Quadra Kill',
+					    5: 'Penta Kill',
+					};
+					return multipleKill[multipleKillCode] || 'multiple kill code error';
+				}
+				
 				function getDurationToMMSS(gameDuration) {
 					const min = parseInt(gameDuration / 60);
 					const second = gameDuration % 60;
@@ -34,18 +45,29 @@
 			
 			#divResult {
 				background-color: #00D8FF;
-				width: 100%;
+				width: 60%;
 				text-align: center;
+ 				margin: 10px auto;
 			}
 			
 			#divHeader {
 				width: 100%;
-				text-align: center;
+				text-align: center;				
 			}
+			
+			#multipleKill {
+				background-color: #CD5C5C;
+				border-radius: 40px;
+			}
+			
 			table {
 				width: 60%;
-				margin: auto;				
+				margin: auto;
+				border-collapse: separate;
+				border-spacing: 0 10px;
+				border:none;					
 			}
+						
 			.Victory {background-color: #81BEF7;}
 			.Defeat {background-color: #F5A9BC;}
 			.Remake {background-color: #A9A9A9;}
@@ -93,15 +115,26 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-	<table border="1">
+	<div>
+	<table>
 		<c:forEach var="matchInfo" items="${matchInfoList}">
-			<div></div>
 			<tr id="${matchInfo.matchId}">
-				<td width=200px align="center" >${matchInfo.queueDescription} <br> ${matchInfo.daysAgo} ago <br>
+				<td width=150px align="center" ><font size="1">${matchInfo.queueDescription}</font> <br> ${matchInfo.daysAgo} ago <br>
 					<script type="text/javascript">
-						var result = getResult(${matchInfo.resultCode});		
-						document.write(result, '<br>');	
+						var result = getResult(${matchInfo.resultCode});
 						
+						if(result == "Victory") {
+							document.write("<b><font color=\"#2E64FE\">");
+							document.write(result);
+							document.write("</font></b>", '<br>');
+						} else if(result == "Defeat") {
+							document.write("<b><font color=\"#FE2E2E\">");
+							document.write(result);
+							document.write("</font></b>", '<br>');
+						} else {
+							document.write(result, '<br>');	
+						}
+												
 						var duration = getDurationToMMSS(${matchInfo.gameDuration});
 						document.write(duration, '<br>');
 						
@@ -112,17 +145,29 @@
 					<div style="width:65px; height:70px; float:left;">
 						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="65" height="65">
 					</div>
-					<div style="width:40px; height:70px; float:left;">
+					<div style="width:40px; height:70px; float:left; padding-left:5px">
 						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.7.1/img/spell/${matchInfo.summonerSpellId1}.png" width="30" height="30">
 						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.7.1/img/spell/${matchInfo.summonerSpellId2}.png" width="30" height="30">
 					</div>
 					<div style="width:40px; height:70px; float:left;">
 						<img alt="Image error" src="https://ddragon.leagueoflegends.com/cdn/img/${matchInfo.mainRuneIconInfo}" width="30" height="30">
-						<img alt="Image error" src="https://ddragon.leagueoflegends.com/cdn/img/${matchInfo.auxiliaryRuneconInfo}" width="30" height="30">
+						<img alt="Image error" src="https://ddragon.leagueoflegends.com/cdn/img/${matchInfo.auxiliaryRuneconInfo}" width="27" height="27">
 					</div>
 					${matchInfo.championName}
 				</td>
-				<td>${matchInfo.kda}</td>
+				<td width="100px" style="text-align: center;">
+					${matchInfo.kills} / ${matchInfo.deaths} / ${matchInfo.assists} <br> ${matchInfo.kda} <br>
+					<div id="multipleKill">
+						<font size="1">
+							<script type="text/javascript">
+								var multipleKill = getMultipleKill(${matchInfo.multipleKillsCode});	
+								if(multipleKill != "none") {
+									document.write(multipleKill, '<br>');
+								}			
+							</script>
+						</font>
+					</div>
+				</td>
 				<td></td>
 				<td></td>
 				<td></td>				
@@ -130,6 +175,6 @@
 			
 		</c:forEach>
 	</table>
-
+	</div>
 </body>
 </html>

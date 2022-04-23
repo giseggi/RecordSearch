@@ -33,6 +33,16 @@ public class MatchDto {
 	// Summoner Spell2 Id
 	String summonerSpellId2;
 	
+	// kill death assist
+	int kills;
+	
+	int deaths;
+	
+	int assists;
+	
+	// 1:none, 2:double kill, 3:triple kill, 4:quadra kill, 5:penta kill
+	int multipleKillsCode;
+	
 	// Kill + Assist / Death
 	String Kda;
 	
