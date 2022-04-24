@@ -6,6 +6,39 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${summoner.name}'s Record</title>
+		<style>
+			body {padding: 1px; margin: 1px;}
+			
+			#divResult {
+				background-color: #00D8FF;
+				width: 60%;
+				text-align: center;
+ 				margin: 10px auto;
+			}
+			
+			#divHeader {
+				width: 100%;
+				text-align: center;				
+			}
+			
+			#multipleKill {
+				background-color: #CD5C5C;
+				border-radius: 40px;
+			}
+			
+			table {
+				width: 60%;
+				margin: auto;
+				border-collapse: separate;
+				border-spacing: 0 10px;
+				border:none;					
+			}
+						
+			.Victory {background-color: #81BEF7;}
+			.Defeat {background-color: #F5A9BC;}
+			.Remake {background-color: #A9A9A9;}				
+		</style>
+		
 			<script type="text/javascript">
 				var winningRate;		
 				winningRate = Math.round(${summoner.wins} / (${summoner.wins} + ${summoner.losses}) * 100);
@@ -40,39 +73,7 @@
 				
 			</script>
 		
-		<style>
-			body {padding: 1px; margin: 1px;}
-			
-			#divResult {
-				background-color: #00D8FF;
-				width: 60%;
-				text-align: center;
- 				margin: 10px auto;
-			}
-			
-			#divHeader {
-				width: 100%;
-				text-align: center;				
-			}
-			
-			#multipleKill {
-				background-color: #CD5C5C;
-				border-radius: 40px;
-			}
-			
-			table {
-				width: 60%;
-				margin: auto;
-				border-collapse: separate;
-				border-spacing: 0 10px;
-				border:none;					
-			}
-						
-			.Victory {background-color: #81BEF7;}
-			.Defeat {background-color: #F5A9BC;}
-			.Remake {background-color: #A9A9A9;}
-				
-		</style>
+
 	</head>
 	<body>
 
@@ -156,7 +157,7 @@
 					${matchInfo.championName}
 				</td>
 				<td width="100px" style="text-align: center;">
-					${matchInfo.kills} / ${matchInfo.deaths} / ${matchInfo.assists} <br> ${matchInfo.kda} <br>
+					${matchInfo.kills} / ${matchInfo.deaths} / ${matchInfo.assists} <br> ${matchInfo.kda} KDA <br>
 					<div id="multipleKill">
 						<font size="1">
 							<script type="text/javascript">
@@ -168,8 +169,25 @@
 						</font>
 					</div>
 				</td>
-				<td></td>
-				<td></td>
+				<td>
+					Level ${matchInfo.championLevel}
+					<div>
+						<script type="text/javascript">
+							var totalMinion = ${matchInfo.totalMinionsKilled} + ${matchInfo.neutralMinionsKilled};	
+							var minionPerMinute = Math.round((totalMinion / (${matchInfo.gameDuration} / 60)) * 10) / 10;
+							var PKill = Math.round(${matchInfo.killInvolvementRate} * 100);
+							document.write(totalMinion + " (" + minionPerMinute + ") CS", '<br>');
+							document.write("P/Kill " + PKill + "%", '<br>');
+						</script>
+					</div>
+				</td>
+				<td>
+					<c:forEach var="item" items="${matchInfo.items}">	
+						<div style="width:65px; height:70px; float:left;">
+							<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.7.1/img/item/${item}.png" width="65" height="65">
+						</div>
+					</c:forEach>	
+				</td>
 				<td></td>				
 			</tr>
 			
