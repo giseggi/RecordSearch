@@ -169,7 +169,7 @@
 						</font>
 					</div>
 				</td>
-				<td>
+				<td width="120px">
 					Level ${matchInfo.championLevel}
 					<div>
 						<script type="text/javascript">
@@ -181,14 +181,41 @@
 						</script>
 					</div>
 				</td>
-				<td>
-					<c:forEach var="item" items="${matchInfo.items}">	
-						<div style="width:65px; height:70px; float:left;">
-							<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.7.1/img/item/${item}.png" width="65" height="65">
-						</div>
+				<td width="280px">
+					<c:forEach var="item" items="${matchInfo.items}">
+						<c:choose>					
+							<c:when test="${item ne 0 }">	
+								<div style="float:left; display:inline-block;">
+									<img style="width:40px; height:40px; border-radius: 10px" alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.7.1/img/item/${item}.png" width="65" height="65">
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div style="width:40px; height:40px; float:left; border-radius: 10px; display:inline-block; background-color: #A9E2F3"></div>								
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>	
-				</td>
-				<td></td>				
+				</td>				
+				<td>
+					<script type="text/javascript">
+							var summonerNameList = new Array();
+							var index = 0;
+					</script>
+					<c:forEach var="summonerName" items="${matchInfo.summonerNames}">
+						<script type="text/javascript">
+							summonerNameList.push("${summonerName}");
+						</script>
+					</c:forEach>
+					<c:forEach var="championName" items="${matchInfo.championNames}">
+						<div style="float:left; display:inline-block; height:20px;">
+							<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${championName}.png" width="20" height="20">
+							<script type="text/javascript">
+								document.write(summonerNameList[index]);
+								index = index + 1;
+							</script>						
+						</div>
+
+					</c:forEach>
+				</td>				
 			</tr>
 			
 		</c:forEach>

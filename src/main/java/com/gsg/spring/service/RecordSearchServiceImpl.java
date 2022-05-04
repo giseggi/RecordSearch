@@ -205,6 +205,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 			if(StringUtils.equals(jsonParticipant.getString("summonerName"), summoer)) {
 				matchInfo.setChampionId(jsonParticipant.getInt("championId"));
 				matchInfo.setChampionName(jsonParticipant.getString("championName"));
+				championNames.add(matchInfo.getChampionName());
 				matchInfo.setChampionLevel(jsonParticipant.getInt("champLevel"));			
 				matchInfo.setSummonerSpell1(jsonParticipant.getInt("summoner1Id"));
 				matchInfo.setSummonerSpell2(jsonParticipant.getInt("summoner2Id"));
@@ -265,6 +266,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		matchInfo.setSummonerSpellId2(summonerSpellMap.get(matchInfo.getSummonerSpell2()));
 		matchInfo.setGameEndTimestamp(jsonGameInfo.getLong("gameEndTimestamp"));
 		matchInfo.setDaysAgo(calDiffFromCurrentTime(matchInfo.getGameEndTimestamp()));
+		matchInfo.setChampionNames(championNames);
 		matchInfo.setMatchId(matchId);
 		return matchInfo;
 	}
