@@ -42,7 +42,7 @@
 			<script type="text/javascript">
 				var winningRate;		
 				winningRate = Math.round(${summoner.wins} / (${summoner.wins} + ${summoner.losses}) * 100);
-				
+						
 				function getResult(resultCode) {
 					const result = {
 						1: 'Victory',
@@ -68,12 +68,8 @@
 					const second = gameDuration % 60;
 					
 					return min.toString().concat('m ', second, 's');
-				}
-				
-				
+				}			
 			</script>
-		
-
 	</head>
 	<body>
 
@@ -117,6 +113,7 @@
 		</c:choose>
 	</div>
 	<div>
+
 	<table>
 		<c:forEach var="matchInfo" items="${matchInfoList}">
 			<tr id="${matchInfo.matchId}">
@@ -196,9 +193,10 @@
 					</c:forEach>	
 				</td>				
 				<td>
-					<script type="text/javascript">
-							var summonerNameList = new Array();
-							var index = 0;
+					<script type="text/javascript">					
+						var summonerNameList = new Array();
+						var championNameList = new Array();
+						var index = 0;
 					</script>
 					<c:forEach var="summonerName" items="${matchInfo.summonerNames}">
 						<script type="text/javascript">
@@ -206,15 +204,37 @@
 						</script>
 					</c:forEach>
 					<c:forEach var="championName" items="${matchInfo.championNames}">
-						<div style="float:left; display:inline-block; height:20px;">
-							<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${championName}.png" width="20" height="20">
-							<script type="text/javascript">
-								document.write(summonerNameList[index]);
-								index = index + 1;
-							</script>						
-						</div>
-
+						<script type="text/javascript">
+							championNameList.push("${championName}");
+						</script>
 					</c:forEach>
+					<div style="flex-direction: column; align-items: left; heigt: 125px;">
+							
+							<font size="1">
+								<script type="text/javascript">
+									for(index = 0; index < 5; index++) {
+										document.write("<div style=\"height:25px;\">");
+										document.write("<img alt=\"Image error\" src=\"http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/" + championNameList[index] + ".png\" width=\"23\" height=\"23\" align=\"middle\" hspace=\"5\">");
+										document.write(summonerNameList[index]);
+										document.write("</div>");
+									}										
+								</script>	
+							</font>					
+						</div>					
+				</td>				
+				<td>
+					<div style="flex-direction: column; align-items: left; heigt: 125px;">
+						<font size="1">
+							<script type="text/javascript">
+								for(index = 5; index < 10; index++) {
+									document.write("<div style=\"height:25px;\">");
+									document.write("<img alt=\"Image error\" src=\"http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/" + championNameList[index] + ".png\" width=\"23\" height=\"23\" align=\"middle\" hspace=\"5\">");
+									document.write(summonerNameList[index]);
+									document.write("</div>");
+								}										
+							</script>	
+						</font>					
+					</div>				
 				</td>				
 			</tr>
 			
