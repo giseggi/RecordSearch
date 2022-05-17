@@ -213,7 +213,7 @@
 							<font size="1">
 								<script type="text/javascript">
 									for(index = 0; index < 5; index++) {
-										document.write("<div style=\"height:25px;\">");
+										document.write("<div style=\"height:25px; overflow:hidden;\">");
 										document.write("<img alt=\"Image error\" src=\"http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/" + championNameList[index] + ".png\" width=\"23\" height=\"23\" align=\"middle\" hspace=\"5\">");
 										document.write(summonerNameList[index]);
 										document.write("</div>");
@@ -227,9 +227,11 @@
 						<font size="1">
 							<script type="text/javascript">
 								for(index = 5; index < 10; index++) {
-									document.write("<div style=\"height:25px;\">");
-									document.write("<img alt=\"Image error\" src=\"http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/" + championNameList[index] + ".png\" width=\"23\" height=\"23\" align=\"middle\" hspace=\"5\">");
+									document.write("<div style=\"height:25px; overflow:hidden;\">");
+									document.write("<img alt=\"Image error\" src=\"http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/" + championNameList[index] + ".png\" width=\"23\" height=\"23\" align=\"middle\" hspace=\"5\" style=\"float:left;\";\">");
+									document.write("<div style=\"float:left;\">"); 
 									document.write(summonerNameList[index]);
+									document.write("</div>");
 									document.write("</div>");
 								}										
 							</script>	
