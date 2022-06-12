@@ -25,7 +25,7 @@ public class RecordSearchController {
 		return "index";
 	}
 	
-
+	// test log
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
 	public ModelAndView result(String summoner, String server) throws Exception {
 		ModelAndView mv = new ModelAndView();
