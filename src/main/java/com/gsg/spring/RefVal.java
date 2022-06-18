@@ -1,14 +1,18 @@
 package com.gsg.spring;
 
 public class RefVal {
+	
+	// Version info URL
+	public static final String VERSION_INFO_URL = "https://ddragon.leagueoflegends.com/api/versions.json";
+	
 	// Queue info URL
 	public static final String QUEUE_INFO_URL = "https://static.developer.riotgames.com/docs/lol/queues.json";
 	
 	// Rune info URL
-	public static final String RUNE_INFO_URL = "https://ddragon.leagueoflegends.com/cdn/12.7.1/data/en_US/runesReforged.json";
+	public static final String RUNE_INFO_URL = "https://ddragon.leagueoflegends.com/cdn/**version**/data/en_US/runesReforged.json";
 	
 	// Summoner spell info URL
-	public static final String SUMMONER_SPELL_INFO_URL = "http://ddragon.leagueoflegends.com/cdn/12.7.1/data/en_US/summoner.json";
+	public static final String SUMMONER_SPELL_INFO_URL = "http://ddragon.leagueoflegends.com/cdn/**version**/data/en_US/summoner.json";
 	
 	// One day to second
 	public static final long ONE_DAY_SEC = 86400L;
@@ -45,5 +49,14 @@ public class RefVal {
 	
 	// Multiple kills code 5:penta kill
 	public static final int MULTIPLE_KILLS_CODE_PENTA_KILL = 5;
+	
+	// QueueId 420:5v5 Ranked Solo games
+	public static final int QUEUE_ID_5V5_RANKED_SOLO_GAME = 420;
+	
+	// Match info start index
+	public static final int MATCH_INFOS_START_INDEX = 0;
+	
+	// Match info count
+	public static final int MATCH_INFOS_COUNT = 20;
 	
 }

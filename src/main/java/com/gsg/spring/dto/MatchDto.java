@@ -100,4 +100,7 @@ public class MatchDto {
 	// Auxiliary rune icon info
 	String auxiliaryRuneconInfo;
 	
+	// Latest version
+	String latestVersion;
+	
 }

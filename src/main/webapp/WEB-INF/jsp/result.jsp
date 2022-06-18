@@ -141,11 +141,11 @@
 				</td>
 				<td width="150px">
 					<div style="width:65px; height:70px; float:left;">
-						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${matchInfo.championName}.png" width="65" height="65">
+						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/${matchInfo.championName}.png" width="65" height="65">
 					</div>
 					<div style="width:40px; height:70px; float:left; padding-left:5px">
-						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.7.1/img/spell/${matchInfo.summonerSpellId1}.png" width="30" height="30">
-						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/12.7.1/img/spell/${matchInfo.summonerSpellId2}.png" width="30" height="30">
+						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/spell/${matchInfo.summonerSpellId1}.png" width="30" height="30">
+						<img alt="Image error" src="http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/spell/${matchInfo.summonerSpellId2}.png" width="30" height="30">
 					</div>
 					<div style="width:40px; height:70px; float:left;">
 						<img alt="Image error" src="https://ddragon.leagueoflegends.com/cdn/img/${matchInfo.mainRuneIconInfo}" width="30" height="30">
@@ -214,7 +214,7 @@
 								<script type="text/javascript">
 									for(index = 0; index < 5; index++) {
 										document.write("<div style=\"height:25px; overflow:hidden;\">");
-										document.write("<img alt=\"Image error\" src=\"http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/" + championNameList[index] + ".png\" width=\"23\" height=\"23\" align=\"middle\" hspace=\"5\">");
+										document.write("<img alt=\"Image error\" src=\"http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/" + championNameList[index] + ".png\" width=\"23\" height=\"23\" align=\"middle\" hspace=\"5\">");
 										document.write(summonerNameList[index]);
 										document.write("</div>");
 									}										
@@ -228,7 +228,7 @@
 							<script type="text/javascript">
 								for(index = 5; index < 10; index++) {
 									document.write("<div style=\"height:25px; overflow:hidden;\">");
-									document.write("<img alt=\"Image error\" src=\"http://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/" + championNameList[index] + ".png\" width=\"23\" height=\"23\" align=\"middle\" hspace=\"5\" style=\"float:left;\";\">");
+									document.write("<img alt=\"Image error\" src=\"http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/" + championNameList[index] + ".png\" width=\"23\" height=\"23\" align=\"middle\" hspace=\"5\" style=\"float:left;\";\">");
 									document.write("<div style=\"float:left;\">"); 
 									document.write(summonerNameList[index]);
 									document.write("</div>");

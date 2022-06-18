@@ -13,4 +13,6 @@ public interface RecordSearchService {
 	public List<String> getMatchId(String puuid, String server) throws Exception;
 	
 	public MatchDto getMatchInfo(String matchId, String server, String summoer) throws Exception;
+	
+	public String getLatestVersion() throws Exception;
 }

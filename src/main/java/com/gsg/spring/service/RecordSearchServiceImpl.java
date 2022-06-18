@@ -52,7 +52,6 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 	@Autowired
 	private final ApiKey API_KEY = new ApiKey();
 	
-	
 	Map<Integer, String> queueInfoMap = new HashMap<Integer, String>();
 	Map<Integer, String> mainRuneIconMap = new HashMap<Integer, String>();
 	Map<Integer, String> auxiliaryRuneIconMap = new HashMap<Integer, String>();
@@ -140,8 +139,11 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		WebClient matchesWc = WebClient.builder().uriBuilderFactory(matchesFacotry).baseUrl(url).build();
 
 		String matchV5matchesByPuuidResponse = matchesWc.get()
-				.uri(uriBuilder -> uriBuilder.path(puuid + "/ids").queryParam("start", "0")
-						.queryParam("count", "20").queryParam("api_key", apiKey).build()).retrieve()
+				.uri(uriBuilder -> uriBuilder.path(puuid + "/ids")
+						.queryParam("start", RefVal.MATCH_INFOS_START_INDEX)
+						.queryParam("queue", RefVal.QUEUE_ID_5V5_RANKED_SOLO_GAME)
+						.queryParam("count", RefVal.MATCH_INFOS_COUNT)
+						.queryParam("api_key", apiKey).build()).retrieve()
 				.bodyToMono(String.class).block();
 		
 		JSONArray jsonArray = new JSONArray(matchV5matchesByPuuidResponse);
@@ -151,10 +153,12 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 			matchesId.add(jsonArray.getString(i));
 		}
 		
+		String latestVersion = new JSONArray(readJsonFromUrl(RefVal.VERSION_INFO_URL)).getString(0);
+				
 		setQueueInfoArray();
-		setAuxiliaryRuneIcon();
-		setMainRuneIcon();
-		setSummonerSpellId();
+		setAuxiliaryRuneIcon(latestVersion);
+		setMainRuneIcon(latestVersion);
+		setSummonerSpellId(latestVersion);
 		
 		return matchesId;
 	}
@@ -376,9 +380,9 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				
 	}
 	
-	private void setAuxiliaryRuneIcon() throws JSONException, IOException {
+	private void setAuxiliaryRuneIcon(String latestVersion) throws JSONException, IOException {
 		
-		JSONArray runeInfoArray = new JSONArray(readJsonFromUrl(RefVal.RUNE_INFO_URL));
+		JSONArray runeInfoArray = new JSONArray(readJsonFromUrl(RefVal.RUNE_INFO_URL.replace("**version**", latestVersion)));
 
 		for (int i = 0; i < runeInfoArray.length(); i++) {
 			JSONObject runeInfo = runeInfoArray.getJSONObject(i);
@@ -388,9 +392,9 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		}
 	}
 	
-	private void setMainRuneIcon() throws JSONException, IOException {
+	private void setMainRuneIcon(String latestVersion) throws JSONException, IOException {
 		
-		JSONArray runeInfoArray = new JSONArray(readJsonFromUrl(RefVal.RUNE_INFO_URL));
+		JSONArray runeInfoArray = new JSONArray(readJsonFromUrl(RefVal.RUNE_INFO_URL.replace("**version**", latestVersion)));
 
 		for (int i = 0; i < runeInfoArray.length(); i++) {
 			JSONObject runeInfo = runeInfoArray.getJSONObject(i);
@@ -408,9 +412,9 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		}
 	}
 	
-	private void setSummonerSpellId() throws JSONException, IOException {
+	private void setSummonerSpellId(String latestVersion) throws JSONException, IOException {
 		
-		JSONObject data = new JSONObject(readJsonFromUrl(RefVal.SUMMONER_SPELL_INFO_URL)).getJSONObject("data");
+		JSONObject data = new JSONObject(readJsonFromUrl(RefVal.SUMMONER_SPELL_INFO_URL.replace("**version**", latestVersion))).getJSONObject("data");
 		JSONArray summonerSpellId = data.names();
 		
 		for (int i = 0; i < summonerSpellId.length(); i++) {
@@ -440,5 +444,12 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 		}
 		return multipleKillCode;
 	}
-
+	
+	@Override
+	public String getLatestVersion() throws Exception {
+		return new JSONArray(readJsonFromUrl(RefVal.VERSION_INFO_URL)).getString(0);
+	}
+	
+	
+	
 }

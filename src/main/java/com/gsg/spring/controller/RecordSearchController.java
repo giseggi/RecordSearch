@@ -39,6 +39,10 @@ public class RecordSearchController {
 				MatchDto matchInfo = recordSearchService.getMatchInfo(matchId, server, summoner);
 				matchInfoList.add(matchInfo);
 			}
+			
+			String latestVersion = recordSearchService.getLatestVersion();
+			
+			mv.addObject("latestVersion", latestVersion);
 			mv.addObject("summoner", summonerInfo);
 			mv.addObject("matchInfoList", matchInfoList);	
 			mv.setViewName("result");
