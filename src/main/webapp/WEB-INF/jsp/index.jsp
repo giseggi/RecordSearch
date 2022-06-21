@@ -19,7 +19,7 @@
 		<div id="divHeader">
 			<form action="/result">
 				<label for="summoner"><font size=6>LOL Record Search</font></label><br> <input
-					type="text" id="summoner" name="summoner" required> <input
+					type="text" id="summoner" name="summoner" placeholder="summoner's name" required> <input
 					type="submit" value="Search"> <select id="server"
 					name="server">
 					<option value="kr">KR</option>
