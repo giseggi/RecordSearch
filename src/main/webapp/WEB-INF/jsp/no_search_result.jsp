@@ -24,10 +24,10 @@
 	<header>
 		<div id="divHeader">
 			<form action="/result">
-				<label for="summoner"><font size=6>LOL Record Search</font></label><br> <input
-					type="text" id="summoner" name="summoner" required> <input
-					type="submit" value="Search"> <select id="server"
-					name="server">
+				<label for="summoner"><font size=6>LOL Record Search</font></label> <br> 
+				<input type="text" id="summoner" name="summoner" required> 
+				<input type="submit" value="Search"> 
+				<select id="server" name="server">
 					<option value="kr">KR</option>
 					<option value="jp1">JP</option>
 					<option value="na1">NA</option>
@@ -39,6 +39,13 @@
 					<option value="la1">LAN</option>
 					<option value="ru">RU</option>
 					<option value="tr1">TR</option>
+				</select>
+			    <select id="count" name="count">
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="30">30</option>
+					<option value="40">40</option>
+					<option value="50">50</option>
 				</select>
 			</form>
 		</div>

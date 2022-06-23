@@ -55,8 +55,5 @@ public class RefVal {
 	
 	// Match info start index
 	public static final int MATCH_INFOS_START_INDEX = 0;
-	
-	// Match info count
-	public static final int MATCH_INFOS_COUNT = 20;
-	
+		
 }

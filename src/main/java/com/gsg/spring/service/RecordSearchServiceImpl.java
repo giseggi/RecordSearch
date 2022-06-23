@@ -128,7 +128,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 	}
 
 	@Override
-	public List<String> getMatchId(String puuid, String server) throws Exception {
+	public List<String> getMatchId(String puuid, String server, int count) throws Exception {
 		String apiKey = API_KEY.getApiKey();
 	
 		String region = getRegion(server);
@@ -142,7 +142,7 @@ public class RecordSearchServiceImpl implements RecordSearchService {
 				.uri(uriBuilder -> uriBuilder.path(puuid + "/ids")
 						.queryParam("start", RefVal.MATCH_INFOS_START_INDEX)
 						.queryParam("queue", RefVal.QUEUE_ID_5V5_RANKED_SOLO_GAME)
-						.queryParam("count", RefVal.MATCH_INFOS_COUNT)
+						.queryParam("count", count)
 						.queryParam("api_key", apiKey).build()).retrieve()
 				.bodyToMono(String.class).block();
 		

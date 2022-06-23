@@ -10,7 +10,7 @@ import com.gsg.spring.dto.SummonerDto;
 public interface RecordSearchService {
 	public SummonerDto getSummonerInfo(String summoner, String server) throws WebClientResponseException;
 	
-	public List<String> getMatchId(String puuid, String server) throws Exception;
+	public List<String> getMatchId(String puuid, String server, int count) throws Exception;
 	
 	public MatchDto getMatchInfo(String matchId, String server, String summoer) throws Exception;
 	

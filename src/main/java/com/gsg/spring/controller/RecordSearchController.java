@@ -26,13 +26,13 @@ public class RecordSearchController {
 	}
 	
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
-	public ModelAndView result(String summoner, String server) throws Exception {
+	public ModelAndView result(String summoner, String server, int count) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		try {
 			SummonerDto summonerInfo = recordSearchService.getSummonerInfo(summoner, server);
 									
-			List<String> matchesId = recordSearchService.getMatchId(summonerInfo.getPuuid(), server);
+			List<String> matchesId = recordSearchService.getMatchId(summonerInfo.getPuuid(), server, count);
 			List<MatchDto> matchInfoList = new ArrayList<MatchDto>();
 			
 			for(String matchId : matchesId) {
