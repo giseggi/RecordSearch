@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html>
 	<head>
@@ -43,6 +43,10 @@
 				</select>
 			</form>
 		</div>
+		<div id="like_button_container"></div>
 	</header>
+	<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  	<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  	<script src="/js/like_button.js"></script>
 </body>
 </html>
