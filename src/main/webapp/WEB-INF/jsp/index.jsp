@@ -47,6 +47,6 @@
 	</header>
 	<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
   	<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-  	<script src="/js/like_button.js"></script>
+  	<script src="like_button.js"></script>
 </body>
 </html>
