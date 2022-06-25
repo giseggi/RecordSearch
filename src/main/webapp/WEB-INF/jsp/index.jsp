@@ -8,15 +8,16 @@
 		<style>
 			body {padding: 1px; margin: 1px;}
 			
-			#divHeader {
+			#div_header {
 				width: 100%;
 				text-align: center;
 			}	
 		</style>
 	</head>
 <body>
+	<div id="like_button_container"></div>
 	<header>
-		<div id="divHeader">
+		<div id="div_header">
 			<form action="/result">
 				<label for="summoner"><font size=6>LOL Record Search</font></label><br> <input
 					type="text" id="summoner" name="summoner" placeholder="summoner's name" required> <input
@@ -43,7 +44,6 @@
 				</select>
 			</form>
 		</div>
-		<div id="like_button_container"></div>
 	</header>
 	<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
   	<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>

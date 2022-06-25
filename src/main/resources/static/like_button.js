@@ -26,7 +26,8 @@ var LikeButton = function (_React$Component) {
       var _this2 = this;
 
       if (this.state.liked) {
-        return 'You liked this.';
+        //return 'You liked this.';
+        document.querySelector('#div_header').style.backgroundColor = "red";
       }
 
       return React.createElement(
