@@ -9,38 +9,53 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var LikeButton = function (_React$Component) {
-  _inherits(LikeButton, _React$Component);
+	_inherits(LikeButton, _React$Component);
 
-  function LikeButton(props) {
-    _classCallCheck(this, LikeButton);
+	function LikeButton(props) {
+		_classCallCheck(this, LikeButton);
 
-    var _this = _possibleConstructorReturn(this, (LikeButton.__proto__ || Object.getPrototypeOf(LikeButton)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (LikeButton.__proto__ || Object.getPrototypeOf(LikeButton)).call(this, props));
 
-    _this.state = { liked: false };
-    return _this;
-  }
+		_this.state = { liked: false };
+		return _this;
+	}
 
-  _createClass(LikeButton, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+	_createClass(LikeButton, [{
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
 
-      if (this.state.liked) {
-        //return 'You liked this.';
-        document.querySelector('#div_header').style.backgroundColor = "red";
-      }
+			var ch = document.getElementById('style');
+			if (this.state.liked) {
+				//return 'You liked this.';
 
-      return React.createElement(
-        'button',
-        { onClick: function onClick() {
-            return _this2.setState({ liked: true });
-          } },
-        'Like'
-      );
-    }
-  }]);
+				if (ch) {
+					ch.href = 'css/dark.css';
+				}
+				return React.createElement(
+					'button',
+					{ onClick: function onClick() {
+							return _this2.setState({ liked: false });
+						} },
+					'Like'
+				);
+				// document.querySelector('#div_header').style.backgroundColor = "red";
+			} else {
+				if (ch) {
+					ch.href = 'css/light.css';
+				}
+				return React.createElement(
+					'button',
+					{ onClick: function onClick() {
+							return _this2.setState({ liked: true });
+						} },
+					'Like'
+				);
+			}
+		}
+	}]);
 
-  return LikeButton;
+	return LikeButton;
 }(React.Component);
 
 var domContainer = document.querySelector('#like_button_container');

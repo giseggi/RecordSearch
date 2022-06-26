@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+body {
+	padding: 1px;
+	margin: 1px;
+}
+
+#divResult {
+	background-color: #1C1C1F;
+	width: 60%;
+	text-align: center;
+	margin: 10px auto;	
+}
+
+#divHeader {
+	width: 100%;
+	text-align: center;
+	background-color: #31313C;
+	color: #FFFFFF;
+}
+
+#multipleKill {
+	background-color: #CD5C5C;
+	border-radius: 40px;
+}
+
+table {
+	width: 60%;
+	margin: auto;
+	border-collapse: separate;
+	border-spacing: 0 10px;
+	border: none;
+}
+
+.Victory {
+	background-color: #81BEF7;
+}
+
+.Defeat {
+	background-color: #F5A9BC;
+}
+
+.Remake {
+	background-color: #A9A9A9;
+}

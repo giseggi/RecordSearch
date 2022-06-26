@@ -5,19 +5,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>LOL Record Search</title>
-		<style>
-			body {padding: 1px; margin: 1px;}
-			
-			#div_header {
-				width: 100%;
-				text-align: center;
-			}	
-		</style>
+		<link rel="stylesheet" type="text/css" id="style" href = "css/light.css">
 	</head>
 <body>
 	<div id="like_button_container"></div>
 	<header>
-		<div id="div_header">
+		<div id="divHeader">
 			<form action="/result">
 				<label for="summoner"><font size=6>LOL Record Search</font></label><br> <input
 					type="text" id="summoner" name="summoner" placeholder="summoner's name" required> <input

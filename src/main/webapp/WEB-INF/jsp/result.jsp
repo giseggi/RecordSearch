@@ -6,38 +6,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${summoner.name}'s Record</title>
-		<style>
-			body {padding: 1px; margin: 1px;}
-			
-			#divResult {
-				background-color: #00D8FF;
-				width: 60%;
-				text-align: center;
- 				margin: 10px auto;
-			}
-			
-			#divHeader {
-				width: 100%;
-				text-align: center;				
-			}
-			
-			#multipleKill {
-				background-color: #CD5C5C;
-				border-radius: 40px;
-			}
-			
-			table {
-				width: 60%;
-				margin: auto;
-				border-collapse: separate;
-				border-spacing: 0 10px;
-				border:none;					
-			}
-						
-			.Victory {background-color: #81BEF7;}
-			.Defeat {background-color: #F5A9BC;}
-			.Remake {background-color: #A9A9A9;}				
-		</style>
 		
 			<script type="text/javascript">
 				var winningRate;		
@@ -70,6 +38,7 @@
 					return min.toString().concat('m ', second, 's');
 				}			
 			</script>
+			<link rel="stylesheet" type="text/css" href = "css/light.css">
 	</head>
 	<body>
 

@@ -5,20 +5,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>LOL Record Search</title>
-		<style>
-			body {padding: 1px; margin: 1px;}
-			
-			#divResult {
-				background-color: #00D8FF;
-				width: 100%;
-				text-align: center;
-			}
-			
-			#divHeader {
-				width: 100%;
-				text-align: center;
-			}	
-		</style>
+		<link rel="stylesheet" type="text/css" href = "css/light.css">
 	</head>
 <body>
 	<header>
