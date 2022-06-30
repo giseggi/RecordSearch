@@ -6,6 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${summoner.name}'s Record</title>
+		<link rel="stylesheet" type="text/css" id="style" href = "css/light.css">
 		
 			<script type="text/javascript">
 				var winningRate;		
@@ -41,7 +42,7 @@
 			<link rel="stylesheet" type="text/css" href = "css/light.css">
 	</head>
 	<body>
-
+	<div id="like_button_container"></div>
 	<header>
 		<div id="divHeader">
 			<form action="/result">
@@ -219,5 +220,8 @@
 		</c:forEach>
 	</table>
 	</div>
+	<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  	<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  	<script src="like_button.js"></script>
 </body>
 </html>

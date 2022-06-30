@@ -27,7 +27,6 @@ var LikeButton = function (_React$Component) {
 
 			var ch = document.getElementById('style');
 			if (this.state.liked) {
-				//return 'You liked this.';
 
 				if (ch) {
 					ch.href = 'css/dark.css';
@@ -37,7 +36,7 @@ var LikeButton = function (_React$Component) {
 					{ onClick: function onClick() {
 							return _this2.setState({ liked: false });
 						} },
-					'Like'
+					'Light'
 				);
 				// document.querySelector('#div_header').style.backgroundColor = "red";
 			} else {
@@ -49,7 +48,7 @@ var LikeButton = function (_React$Component) {
 					{ onClick: function onClick() {
 							return _this2.setState({ liked: true });
 						} },
-					'Like'
+					'dark'
 				);
 			}
 		}

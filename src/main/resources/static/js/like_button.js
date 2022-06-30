@@ -9,14 +9,13 @@ class LikeButton extends React.Component {
 	render() {
 		var ch = document.getElementById('style')
 		if (this.state.liked) {
-			//return 'You liked this.';
 
 			if (ch) {
 				ch.href = ('css/dark.css');
 			}
 			return (
 				<button onClick={() => this.setState({ liked: false })}>
-					Like
+					Light
 				</button>
 			);
 			// document.querySelector('#div_header').style.backgroundColor = "red";
@@ -26,7 +25,7 @@ class LikeButton extends React.Component {
 			}
 			return (
 				<button onClick={() => this.setState({ liked: true })}>
-					Like
+					dark
 				</button>
 			);
 		}
