@@ -3,7 +3,7 @@
 class LikeButton extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { liked: false };
+		this.state = { liked: true };
 	}
 
 	render() {
@@ -18,7 +18,7 @@ class LikeButton extends React.Component {
 					Light
 				</button>
 			);
-			// document.querySelector('#div_header').style.backgroundColor = "red";
+
 		} else {
 			if (ch) {
 				ch.href = ('css/light.css');

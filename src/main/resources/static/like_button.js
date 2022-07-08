@@ -16,7 +16,7 @@ var LikeButton = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (LikeButton.__proto__ || Object.getPrototypeOf(LikeButton)).call(this, props));
 
-		_this.state = { liked: false };
+		_this.state = { liked: true };
 		return _this;
 	}
 
@@ -38,7 +38,6 @@ var LikeButton = function (_React$Component) {
 						} },
 					'Light'
 				);
-				// document.querySelector('#div_header').style.backgroundColor = "red";
 			} else {
 				if (ch) {
 					ch.href = 'css/light.css';

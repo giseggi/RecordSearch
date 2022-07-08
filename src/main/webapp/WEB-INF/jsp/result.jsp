@@ -6,7 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${summoner.name}'s Record</title>
-		<link rel="stylesheet" type="text/css" id="style" href = "css/light.css">
+		<link rel="stylesheet" type="text/css" id="style" href = "css/dark.css">
 		
 			<script type="text/javascript">
 				var winningRate;		
@@ -39,7 +39,6 @@
 					return min.toString().concat('m ', second, 's');
 				}			
 			</script>
-			<link rel="stylesheet" type="text/css" href = "css/light.css">
 	</head>
 	<body>
 	<div id="like_button_container"></div>
