@@ -26,7 +26,7 @@ public class RecordSearchController {
 	}
 	
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
-	public ModelAndView result(String summoner, String server, int count) throws Exception {
+	public ModelAndView result(String summoner, String server, int count, String darkFlg) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		
 		try {
@@ -44,7 +44,8 @@ public class RecordSearchController {
 			
 			mv.addObject("latestVersion", latestVersion);
 			mv.addObject("summoner", summonerInfo);
-			mv.addObject("matchInfoList", matchInfoList);	
+			mv.addObject("matchInfoList", matchInfoList);
+			mv.addObject("darkFlg",darkFlg);
 			mv.setViewName("result");
 			
 		} catch(WebClientResponseException e) {

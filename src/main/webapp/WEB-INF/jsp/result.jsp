@@ -6,7 +6,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>${summoner.name}'s Record</title>
-		<link rel="stylesheet" type="text/css" id="style" href = "css/dark.css">
+		<link rel="stylesheet" type="text/css" id="style">
 		
 			<script type="text/javascript">
 				var winningRate;		
@@ -68,6 +68,7 @@
 					<option value="40">40</option>
 					<option value="50">50</option>
 				</select>
+				<input type="hidden" id="darkFlg" name="darkFlg" value="${darkFlg}">
 			</form>
 		</div>
 	</header>

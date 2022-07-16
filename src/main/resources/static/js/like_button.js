@@ -1,20 +1,31 @@
 'use strict';
 
 class LikeButton extends React.Component {
+
 	constructor(props) {
-		super(props);
-		this.state = { liked: true };
+		super(props);	
+		
+		var flg = document.getElementById('darkFlg');
+		
+		if(flg.value) {
+			this.state = { isDark : true };
+		} else {
+			this.state = { isDark : false };
+		}
 	}
 
 	render() {
-		var ch = document.getElementById('style')
-		if (this.state.liked) {
+		var ch = document.getElementById('style');
+				
+		var flg = document.getElementById('darkFlg');
+		if (this.state.isDark) {
 
 			if (ch) {
 				ch.href = ('css/dark.css');
+				flg.setAttribute('value', 'true');
 			}
 			return (
-				<button onClick={() => this.setState({ liked: false })}>
+				<button onClick={() => this.setState({ isDark: false })}>
 					Light
 				</button>
 			);
@@ -22,9 +33,10 @@ class LikeButton extends React.Component {
 		} else {
 			if (ch) {
 				ch.href = ('css/light.css');
+				flg.setAttribute('value', '');
 			}
 			return (
-				<button onClick={() => this.setState({ liked: true })}>
+				<button onClick={() => this.setState({ isDark: true })}>
 					dark
 				</button>
 			);

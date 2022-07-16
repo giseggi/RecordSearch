@@ -16,7 +16,13 @@ var LikeButton = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (LikeButton.__proto__ || Object.getPrototypeOf(LikeButton)).call(this, props));
 
-		_this.state = { liked: true };
+		var flg = document.getElementById('darkFlg');
+
+		if (flg.value) {
+			_this.state = { isDark: true };
+		} else {
+			_this.state = { isDark: false };
+		}
 		return _this;
 	}
 
@@ -26,26 +32,30 @@ var LikeButton = function (_React$Component) {
 			var _this2 = this;
 
 			var ch = document.getElementById('style');
-			if (this.state.liked) {
+
+			var flg = document.getElementById('darkFlg');
+			if (this.state.isDark) {
 
 				if (ch) {
 					ch.href = 'css/dark.css';
+					flg.setAttribute('value', 'true');
 				}
 				return React.createElement(
 					'button',
 					{ onClick: function onClick() {
-							return _this2.setState({ liked: false });
+							return _this2.setState({ isDark: false });
 						} },
 					'Light'
 				);
 			} else {
 				if (ch) {
 					ch.href = 'css/light.css';
+					flg.setAttribute('value', '');
 				}
 				return React.createElement(
 					'button',
 					{ onClick: function onClick() {
-							return _this2.setState({ liked: true });
+							return _this2.setState({ isDark: true });
 						} },
 					'dark'
 				);
