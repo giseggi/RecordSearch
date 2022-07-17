@@ -8,13 +8,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var LikeButton = function (_React$Component) {
-	_inherits(LikeButton, _React$Component);
+var DarkModeButton = function (_React$Component) {
+	_inherits(DarkModeButton, _React$Component);
 
-	function LikeButton(props) {
-		_classCallCheck(this, LikeButton);
+	function DarkModeButton(props) {
+		_classCallCheck(this, DarkModeButton);
 
-		var _this = _possibleConstructorReturn(this, (LikeButton.__proto__ || Object.getPrototypeOf(LikeButton)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (DarkModeButton.__proto__ || Object.getPrototypeOf(DarkModeButton)).call(this, props));
 
 		var flg = document.getElementById('darkFlg');
 
@@ -26,7 +26,7 @@ var LikeButton = function (_React$Component) {
 		return _this;
 	}
 
-	_createClass(LikeButton, [{
+	_createClass(DarkModeButton, [{
 		key: 'render',
 		value: function render() {
 			var _this2 = this;
@@ -63,8 +63,8 @@ var LikeButton = function (_React$Component) {
 		}
 	}]);
 
-	return LikeButton;
+	return DarkModeButton;
 }(React.Component);
 
-var domContainer = document.querySelector('#like_button_container');
-ReactDOM.render(React.createElement(LikeButton, null), domContainer);
+var domContainer = document.querySelector('#dark_mode_container');
+ReactDOM.render(React.createElement(DarkModeButton, null), domContainer);

@@ -8,7 +8,7 @@
 		<link rel="stylesheet" type="text/css" id="style" href = "css/light.css">
 	</head>
 <body>
-	<div id="like_button_container"></div>
+	<div id="dark_mode_container"></div>
 	<header>
 		<div id="divHeader">
 			<form action="/result">
@@ -41,6 +41,6 @@
 	</header>
 	<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
   	<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-  	<script src="like_button.js"></script>
+  	<script src="dark_mode_button.js"></script>
 </body>
 </html>

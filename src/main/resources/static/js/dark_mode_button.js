@@ -1,6 +1,6 @@
 'use strict';
 
-class LikeButton extends React.Component {
+class DarkModeButton extends React.Component {
 
 	constructor(props) {
 		super(props);	
@@ -46,5 +46,5 @@ class LikeButton extends React.Component {
 	}
 }
 
-let domContainer = document.querySelector('#like_button_container');
-ReactDOM.render(<LikeButton />, domContainer);
+let domContainer = document.querySelector('#dark_mode_container');
+ReactDOM.render(<DarkModeButton />, domContainer);
