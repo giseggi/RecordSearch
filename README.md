@@ -25,3 +25,4 @@ Then you can check the result of the game <br>
 
  Done:heavy_check_mark:
 * Dropdown to select the number of results to display
+* Implement darkmode and Lightmode
