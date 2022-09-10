@@ -22,7 +22,8 @@ public class RecordSearchController {
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home() {
-		return "index";
+//		return "index";
+		return "member_registration";
 	}
 	
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
