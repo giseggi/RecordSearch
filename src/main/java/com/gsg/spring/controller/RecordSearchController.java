@@ -22,7 +22,12 @@ public class RecordSearchController {
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home() {
-//		return "index";
+		return "index";
+	}
+	
+
+	@RequestMapping(value = "/registration", method = RequestMethod.GET)
+	public String registration() {
 		return "member_registration";
 	}
 	

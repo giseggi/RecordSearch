@@ -10,6 +10,10 @@
 <body>
 	<div id="dark_mode_container"></div>
 	<header>
+	
+	<form>
+		<a href="/registration">Member registration</a>
+	</form>
 		<div id="divHeader">
 			<form action="/result">
 				<label for="summoner"><font size=6>LOL Record Search</font></label><br> 
