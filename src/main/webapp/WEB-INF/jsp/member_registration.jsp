@@ -11,12 +11,12 @@
 	<div id="dark_mode_container"></div>
 	<header>
 		<div id="divHeader">
-			<form action="/none">
+			<form method="post" action="/registrationDone">
 				<label for="summoner"><font size=6>Member Registration</font></label><br> 
-				ID: <input type="text" id="memberId" name="memberId"  required> <br>
+				ID: <input type="text" id="id" name="id"  required> <br>
 				Password: <input type="password" id="password" name="password" required> <br> 
-				Nickname: <input type="text" id="nickname" name="nickname" required> <br>
-				Mail Address(※): <input type="text" id="mailAddress" name="mailAddress" > <br>
+				Nickname: <input type="text" id="name" name="name" required> <br>
+				Mail Address(※): <input type="text" id="mailAddr" name="mailAddr" > <br>
 				Note(※): <input type="text" id="note" name="note" > <br>
 				<input type="submit" value="Registration"> 
 

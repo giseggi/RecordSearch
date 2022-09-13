@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.gsg.spring.dto.MatchDto;
 import com.gsg.spring.dto.SummonerDto;
+import com.gsg.spring.entity.MemberInfo;
+import com.gsg.spring.service.MemberService;
 import com.gsg.spring.service.RecordSearchService;
 
 @Controller
@@ -19,6 +21,13 @@ public class RecordSearchController {
 	
 	@Autowired
 	private RecordSearchService recordSearchService;
+	
+	private final MemberService memberService;
+	
+	@Autowired
+	public RecordSearchController(MemberService memberService) {
+		this.memberService = memberService;
+	}
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home() {
@@ -29,6 +38,13 @@ public class RecordSearchController {
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String registration() {
 		return "member_registration";
+	}
+	
+	@RequestMapping(value = "/registrationDone", method = RequestMethod.POST)
+	public String registrationDone(MemberInfo memberInfo) {
+		memberService.save(memberInfo);
+		
+		return "registration_done";
 	}
 	
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
